@@ -1,0 +1,91 @@
+.schedules-container .table-container {
+  overflow-x: auto;
+}
+
+.schedules-container .schedules {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.schedules-container .schedules .table-schedules {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.schedules-container .schedules .table-container .link-all {
+  display: flex;
+  justify-content: flex-end;
+  color: var(--color-gray);
+  margin-top: 2rem;
+}
+
+.schedules-container .schedules .table-schedules thead tr {
+  background-color: var(--color-white);
+}
+
+.table-schedules th,
+.table-schedules td {
+  white-space: nowrap;
+}
+
+.schedules-container .schedules .table-schedules thead tr th {
+  padding: 1rem;
+}
+
+.schedules-container .schedules .table-schedules tbody tr {
+  border-bottom: .1rem solid var(--color-white);
+}
+
+.schedules-container .schedules .table-schedules tbody tr td {
+  padding: 1rem;
+}
+
+.schedules .table-schedules tbody .actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.schedules .table-schedules tbody .actions .edit {
+  color: greenyellow;
+  cursor: pointer;
+}
+
+.schedules .table-schedules tbody .actions .del {
+  color: orangered;
+  cursor: pointer;
+}
+
+.cell-header {
+  display: none;
+}
+
+@media screen and (max-width: 48rem) {
+  .schedules-container .schedules .table-schedules {
+    flex-direction: row;
+  }
+
+  .schedules .table-schedules thead tr {
+    flex-direction: column;
+  }
+
+  .schedules .table-schedules tbody tr {
+    flex-direction: column;
+  }
+
+  .table-schedules td {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table-schedules th {
+    display: none;
+  }
+
+  .cell-header {
+    display: block;
+    font-weight: 700;
+  }
+
+}

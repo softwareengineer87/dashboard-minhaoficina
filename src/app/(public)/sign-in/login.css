@@ -1,0 +1,78 @@
+.login-container .login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100dvh;
+  gap: 4rem;
+}
+
+.login-container .login .login-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  text-align: center;
+  background-color: var(--color-white);
+  height: inherit;
+  border-radius: 0 5rem 5rem 0;
+  box-shadow: 2px 3px 12px 3px rgba(0, 0, 0, 0.1);
+}
+
+.login-container .login .login-left h2 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--color-red);
+}
+
+.login-container .login .login-left p {
+  color: var(--color-gray);
+}
+
+.login-container .login .login-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 1rem;
+}
+
+.login-container .login .login-right .shield {
+  color: var(--color-red);
+}
+
+.login-container .login .login-right .form-login {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.login-container .login .login-right .form-login input {
+  padding: 1rem;
+  background-color: var(--color-white);
+}
+
+.login-container .login .login-right .form-login .btn-login {
+  background-color: var(--color-red);
+  padding: 1rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 48rem) {
+
+  .login-container .login .login-left {
+    width: 40rem;
+  }
+
+  .login-container .login {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .login-container .login .login-right {
+    flex: 1;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,119 @@
+.services-container .table-container {
+  overflow-x: auto;
+}
+
+.services-container .services {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.services-container .services .table-services {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.services-container .services .buttons-pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  color: var(--color-gray);
+  margin-top: 2rem;
+}
+
+.buttons-pagination .page-icon {
+  color: var(--color-red);
+  cursor: pointer;
+}
+
+.services-container .services .buttons-pagination .link-all {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.buttons-pagination .page-number {
+  color: var(--color-gray);
+}
+
+.services-container .services .buttons-pagination .link-all.active {
+  color: var(--color-red);
+}
+
+.services-container .services .buttons-pagination .link-all.not-allowed {
+  cursor: not-allowed;
+}
+
+.services-container .services .table-services thead tr {
+  background-color: var(--color-white);
+}
+
+.table-services th,
+.table-services td {
+  white-space: nowrap;
+}
+
+.services-container .services .table-services thead tr th {
+  padding: 1rem;
+}
+
+.services-container .services .table-services tbody tr {
+  border-bottom: .1rem solid var(--color-white);
+}
+
+.services-container .services .table-services tbody tr td {
+  padding: 1rem;
+}
+
+.services .table-services tbody .actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.services .table-services tbody .actions .edit {
+  color: greenyellow;
+  cursor: pointer;
+}
+
+.services .table-services tbody .actions .del {
+  color: orangered;
+  cursor: pointer;
+}
+
+.services .table-services tbody .actions .btn-detail {
+  color: gray;
+  cursor: pointer;
+}
+
+.cell-header {
+  display: none;
+}
+
+@media screen and (max-width: 48rem) {
+  .services-container .services .table-services {
+    flex-direction: row;
+  }
+
+  .services .table-services thead tr {
+    flex-direction: column;
+  }
+
+  .services .table-services tbody tr {
+    flex-direction: column;
+  }
+
+  .table-services td {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table-services th {
+    display: none;
+  }
+
+  .cell-header {
+    display: block;
+    font-weight: 700;
+  }
+
+}

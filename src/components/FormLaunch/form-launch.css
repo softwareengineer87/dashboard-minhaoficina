@@ -1,0 +1,125 @@
+.form-launch-container {
+  margin-top: 2rem;
+  transition: all .5s ease-in-out;
+}
+
+.form-launch-container .message-photo {
+  margin-top: 2rem;
+  background-color: var(--color-white);
+  padding: 1rem;
+  color: var(--color-red);
+}
+
+.form-launch-container.active {
+  display: block;
+}
+
+.form-launch.deactive {
+  display: none;
+}
+
+.form-launch .forms {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-launch .forms .input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-launch .forms .input-form input {
+  background-color: var(--color-white);
+  padding: 1rem;
+}
+
+.form-launch .forms .input-form textarea {
+  background-color: var(--color-white);
+  padding: 1rem;
+  resize: none;
+}
+
+.form-launch .btn-save,
+.form-launch .btn-photo {
+  background-color: var(--color-black);
+  padding: 1rem 2rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.form-launch .btn-photo {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-launch .buttons-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-launch .buttons-form .cancell {
+  background-color: gray;
+  padding: 1rem 2rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.form-launch-container .parts {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.parts .part {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: .1rem solid var(--color-white);
+}
+
+.part h4 {
+  font-size: 1.2rem;
+}
+
+.part p {
+  font-size: 1.4rem;
+}
+
+.part .icon-x {
+  cursor: pointer;
+}
+
+.form-launch-container .total-value {
+  margin-top: 2rem;
+}
+
+.total-value h4 {
+  color: var(--color-red);
+}
+
+.form-launch-container .preview-image {
+  object-fit: cover;
+  border-radius: .5rem;
+}
+
+@media screen and (min-width: 48rem) {
+  .form-launch .forms .box-inputs {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .form-launch .forms .box-inputs .input-form {
+    flex: 1;
+  }
+
+  .form-launch .buttons-form {
+    flex-direction: row;
+    align-items: center;
+  }
+}

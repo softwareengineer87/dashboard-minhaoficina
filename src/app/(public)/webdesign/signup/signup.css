@@ -1,0 +1,110 @@
+.signup-container .signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+  height: 100dvh;
+}
+
+.signup-container .signup .signup-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  text-align: center;
+  height: inherit;
+  background-color: var(--color-white);
+  border-radius: 0 5rem 5rem 0;
+  box-shadow: 2px 3px 12px 3px rgba(0, 0, 0, 0.1);
+}
+
+.signup-container .signup .signup-left h2 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--color-red);
+}
+
+.signup-container .signup .signup-left p {
+  color: var(--color-gray);
+}
+
+.signup-container .signup .signup-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.signup-right p {
+  color: var(--color-gray);
+}
+
+.signup-container .signup .signup-right .shield {
+  color: var(--color-red);
+}
+
+.signup-container .signup .signup-right .form-signup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.signup-container .signup .signup-right .form-signup input {
+  padding: 1rem;
+  background-color: var(--color-white);
+}
+
+.form-signup textarea {
+  padding: 1rem;
+  resize: none;
+  background-color: var(--color-white);
+}
+
+.signup-container .signup .signup-right .form-signup .btn-signup {
+  background-color: var(--color-red);
+  padding: 1rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.signup-container .form-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-container .form-photo input {
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.signup-container .btn-photo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--color-blacklight);
+  padding: 1rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 48rem) {
+
+  .signup-container .signup .signup-left {
+    width: 40rem;
+  }
+
+  .signup-container .signup {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .signup-container .signup .signup-right {
+    flex: 1;
+    justify-content: center;
+  }
+}

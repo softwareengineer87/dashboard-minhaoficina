@@ -1,0 +1,51 @@
+.search-container .search {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.search .search-right .search-form .box-input {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+  padding: .5rem 1rem;
+  border-radius: 1rem;
+}
+
+.search .search-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.search .search-left p {
+  color: var(--color-gray);
+}
+
+.search .search-left .months {
+  color: var(--color-red);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.search-right .search-form .box-input input {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.box-input .btn-search {
+  cursor: pointer;
+}
+
+.box-input .btn-search .icon-search {
+  color: var(--color-red);
+}
+
+@media screen and (min-width: 48rem) {
+  .search-container .search {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

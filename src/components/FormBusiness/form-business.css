@@ -1,0 +1,67 @@
+.form-business-container {
+  margin-top: 2rem;
+  transition: all .5s ease-in-out;
+  display: none;
+}
+
+.form-business-container.active {
+  display: block;
+}
+
+.form-business.deactive {
+  display: none;
+}
+
+.form-business .forms {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-business .forms .input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-business .forms .input-form input {
+  background-color: var(--color-white);
+  padding: 1rem;
+}
+
+.form-business .btn-save {
+  background-color: var(--color-black);
+  padding: 1rem 2rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.form-business .buttons-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.form-business .buttons-form .cancell {
+  background-color: gray;
+  padding: 1rem 2rem;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 48rem) {
+  .form-business .forms .box-inputs {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .form-business .forms .box-inputs .input-form {
+    flex: 1;
+  }
+
+  .form-business .buttons-form {
+    flex-direction: row;
+    align-items: center;
+  }
+}

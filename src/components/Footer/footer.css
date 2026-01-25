@@ -1,0 +1,7 @@
+.footer-container {
+  margin: 4rem 0 4rem 0;
+}
+
+.footer-container .footer p {
+  color: var(--color-gray);
+}

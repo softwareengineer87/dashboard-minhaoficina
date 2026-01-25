@@ -1,0 +1,37 @@
+.container-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+}
+
+.container-main .statistics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.container-main .buttons {
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 2rem;
+}
+
+.container-main .buttons .btn-new {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 48rem) {
+  .container-main .statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 64rem) {
+  .container-main .statistics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

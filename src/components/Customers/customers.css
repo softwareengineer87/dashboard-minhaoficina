@@ -1,0 +1,122 @@
+.customers-container .table-container {
+  overflow-x: auto;
+}
+
+.customers-container .customers {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.customers-container .customers .table-customers {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.customers-container .customers .buttons-pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  color: var(--color-gray);
+  margin-top: 2rem;
+}
+
+.buttons-pagination .page-icon {
+  color: var(--color-red);
+  cursor: pointer;
+}
+
+.customers-container .customers .buttons-pagination .link-all {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.buttons-pagination .page-number {
+  color: var(--color-gray);
+}
+
+.customers-container .customers .buttons-pagination .link-all.active {
+  color: var(--color-red);
+}
+
+.customers-container .customers .buttons-pagination .link-all.not-allowed {
+  cursor: not-allowed;
+}
+
+.customers-container .customers .table-customers thead tr {
+  background-color: var(--color-white);
+}
+
+.table-customers th,
+.table-customers td {
+  white-space: nowrap;
+}
+
+.customers-container .customers .table-customers thead tr th {
+  padding: 1rem;
+}
+
+.customers-container .customers .table-customers tbody tr {
+  border-bottom: .1rem solid var(--color-white);
+}
+
+.customers-container .customers .table-customers tbody tr td {
+  padding: 1rem;
+}
+
+.customers .table-customers tbody .actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.customers .table-customers tbody .actions .edit {
+  color: greenyellow;
+  cursor: pointer;
+}
+
+.customers .table-customers tbody .actions .del {
+  color: orangered;
+  cursor: pointer;
+}
+
+.customers .table-customers tbody .actions .btn-detail {
+  color: gray;
+  cursor: pointer;
+}
+
+.cell-header {
+  display: none;
+}
+
+@media screen and (max-width: 48rem) {
+  .customers-container .customers .table-customers {
+    flex-direction: row;
+  }
+
+  .customers .table-customers thead tr {
+    flex-direction: column;
+  }
+
+  .customers .table-customers tbody tr {
+    flex-direction: column;
+  }
+
+  .table-customers td {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table-customers th {
+    display: none;
+  }
+
+  .cell-header {
+    display: block;
+    font-weight: 700;
+  }
+
+}
