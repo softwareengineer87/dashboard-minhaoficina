@@ -1,29 +1,30 @@
-import { FormEvent, useEffect, useState } from 'react';
-import type Launch from '../../models/Launch';
-import './form-launch.css';
-import useLaunch from '../../data/hooks/useLaunch';
+import { useEffect, useState } from 'react';
+import type note from '../../models/Note';
+import './form-note.css';
 import { Message } from '../Message';
 import { useRouter } from 'next/navigation';
 import { IconX } from '@tabler/icons-react';
 import { PartPdf } from '@/models/Part';
 import { formatPrice } from '@/utils/FormatPrice';
+import Note from '../../models/Note';
+import useNote from '@/data/hooks/useNote';
 
-interface FormLaunchProps {
-  changeLaunch(launch: Launch): void;
-  launch: Launch;
+interface FormNoteProps {
+  changeNote(note: note): void;
+  note: Note;
   totalPrice: number;
   changeTotal(total: number): void;
   partList: PartPdf[];
   changePart(parts: PartPdf[]): void;
 }
 
-function Formlaunch({
-  changeLaunch,
-  launch,
+function FormNote({
+  changeNote,
+  note,
   totalPrice,
   changeTotal,
   changePart,
-}: FormLaunchProps) {
+}: FormNoteProps) {
 
   const [file, setFile] = useState(null);
   const [partName, setPartName] = useState<string>('');
@@ -33,28 +34,19 @@ function Formlaunch({
 
 
   const {
-    saveLaunch,
+    saveNote,
     savePhoto,
     savePart,
     loadParts,
     partsList,
     dataPhoto,
-    idLaunch,
     message,
     status,
     activeMessage
-  } = useLaunch();
+  } = useNote();
 
   async function handleForm() {
-    await saveLaunch(launch);
-    changeLaunch({} as Launch);
-  }
-
-  function timeMessage() {
-    setTimeout(() => {
-      setShowMessage(false);
-      setMessagePhoto('');
-    }, 5000);
+    await saveNote(note);
   }
 
   function generateId() {
@@ -62,7 +54,7 @@ function Formlaunch({
   }
 
   async function handlePart() {
-    //await savePart(partName, Number(partPrice), idLaunch);
+    //await savePart(partName, Number(partPrice), idnote);
     setParts([...parts, {
       partId: generateId(),
       name: partName,
@@ -95,7 +87,7 @@ function Formlaunch({
 
   return (
     <section className={`
-      form-launch-container
+      form-note-container
       }
     `}>
       <Message
@@ -103,14 +95,14 @@ function Formlaunch({
         status={status}
         activeMessage={activeMessage}
       />
-      <div className='form-launch'>
+      <div className='form-note'>
         <form className='forms'>
           <div className='box-inputs'>
             <div className='input-form'>
               <label htmlFor='name'>Nome</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, name: e.target.value })}
-                value={launch.name}
+                onChange={(e) => changeNote({ ...note, name: e.target.value })}
+                value={note.name}
                 type='text'
                 id='name'
                 placeholder='Nome'
@@ -119,8 +111,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='cpf'>CPF</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, cpf: e.target.value })}
-                value={launch.cpf}
+                onChange={(e) => changeNote({ ...note, cpf: e.target.value })}
+                value={note.cpf}
                 type='text'
                 id='cpf'
                 placeholder='CPF' />
@@ -128,8 +120,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='tel'>Telefone</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, tel: e.target.value })}
-                value={launch.tel}
+                onChange={(e) => changeNote({ ...note, tel: e.target.value })}
+                value={note.tel}
                 type='text'
                 id='tel'
                 placeholder='Telefone'
@@ -140,8 +132,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='model'>Modelo</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, model: e.target.value })}
-                value={launch.model}
+                onChange={(e) => changeNote({ ...note, model: e.target.value })}
+                value={note.model}
                 type='text'
                 id='model'
                 placeholder='Modelo'
@@ -150,8 +142,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='kilometer'>Kilometragem</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, kilometer: e.target.value })}
-                value={launch.kilometer}
+                onChange={(e) => changeNote({ ...note, kilometer: e.target.value })}
+                value={note.kilometer}
                 type='number'
                 id='kilometer'
                 placeholder='Kilometragem'
@@ -162,8 +154,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='plate'>Placa</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, plate: e.target.value })}
-                value={launch.plate}
+                onChange={(e) => changeNote({ ...note, plate: e.target.value })}
+                value={note.plate}
                 type='text'
                 id='plate'
                 placeholder='Placa'
@@ -172,8 +164,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='observation'>Observação</label>
               <textarea
-                onChange={(e) => changeLaunch({ ...launch, observation: e.target.value })}
-                value={launch.observation}
+                onChange={(e) => changeNote({ ...note, observation: e.target.value })}
+                value={note.observation}
                 id='plate'
                 placeholder='Observação'
               >
@@ -182,8 +174,8 @@ function Formlaunch({
             <div className='input-form'>
               <label htmlFor='date'>Data</label>
               <input
-                onChange={(e) => changeLaunch({ ...launch, date: e.target.value })}
-                value={launch.date}
+                onChange={(e) => changeNote({ ...note, date: e.target.value })}
+                value={note.date}
                 type='date'
                 id='date'
                 placeholder='Data'
@@ -191,16 +183,9 @@ function Formlaunch({
             </div>
           </div>
         </form>
-        {/*
         <div className='buttons-form'>
           <button onClick={handleForm} className='btn-save'>Salvar nota</button>
-          <button
-            onClick={() => { }}
-            className='cancell'>
-            Cancelar
-          </button>
         </div>
-        */}
 
         <form className='forms'>
           <div className='box-inputs'>
@@ -247,5 +232,5 @@ function Formlaunch({
   );
 }
 
-export { Formlaunch }
+export { FormNote }
 

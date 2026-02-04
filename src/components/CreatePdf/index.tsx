@@ -1,10 +1,10 @@
 import generatePDF, { Margin } from 'react-to-pdf';
-import type Launch from '../../models/Launch';
+import type Launch from '../../models/Note';
 import { formatPrice } from '@/utils/FormatPrice';
 import { PartPdf } from '../../models/Part';
-import useLaunch from '@/data/hooks/useLaunch';
 import { useState } from 'react';
 import './pdf.css';
+import useNote from '@/data/hooks/useNote';
 
 interface CreatePdfProps {
   data: Launch
@@ -21,7 +21,7 @@ function CreatePdf({
 
   const {
     loadPhoto
-  } = useLaunch();
+  } = useNote();
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [file, setFile] = useState(null);

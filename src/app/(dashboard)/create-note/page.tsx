@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import './create.css';
-import Launch from '@/models/Launch';
-import { Formlaunch } from '@/components/FormLaunch';
 import CreatePdf from '@/components/CreatePdf';
 import { PartPdf } from '@/models/Part';
+import { FormNote } from '@/components/FormNote';
+import Note from '@/models/Note';
 
 function CreateLaunch() {
 
-  const [launch, setLaunch] = useState<Launch>({} as Launch);
+  const [note, setNote] = useState<Note>({} as Note);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [partList, setPartList] = useState<PartPdf[]>([]);
 
@@ -18,9 +18,9 @@ function CreateLaunch() {
       <h2>Criar lançamento</h2>
       <div className='launch'>
         <div className='box-form'>
-          <Formlaunch
-            launch={launch}
-            changeLaunch={setLaunch}
+          <FormNote
+            note={note}
+            changeNote={setNote}
             totalPrice={totalPrice}
             changeTotal={setTotalPrice}
             partList={partList}
@@ -29,7 +29,7 @@ function CreateLaunch() {
         </div>
         <div className='box-pdf'>
           <CreatePdf
-            data={launch}
+            data={note}
             partsList={partList}
             totalPrice={totalPrice}
           />

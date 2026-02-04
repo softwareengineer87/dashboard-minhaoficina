@@ -1,6 +1,6 @@
 
-export default interface Launch {
-  launchId: string;
+export default interface Note {
+  noteId: string;
   name: string;
   date: string;
   tel: string;

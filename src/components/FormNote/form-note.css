@@ -1,60 +1,60 @@
-.form-launch-container {
+.form-note-container {
   margin-top: 2rem;
   transition: all .5s ease-in-out;
 }
 
-.form-launch-container .message-photo {
+.form-note-container .message-photo {
   margin-top: 2rem;
   background-color: var(--color-white);
   padding: 1rem;
   color: var(--color-red);
 }
 
-.form-launch-container.active {
+.form-note-container.active {
   display: block;
 }
 
-.form-launch.deactive {
+.form-note.deactive {
   display: none;
 }
 
-.form-launch .forms {
+.form-note .forms {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.form-launch .forms .input-form {
+.form-note .forms .input-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.form-launch .forms .input-form input {
+.form-note .forms .input-form input {
   background-color: var(--color-white);
   padding: 1rem;
 }
 
-.form-launch .forms .input-form textarea {
+.form-note .forms .input-form textarea {
   background-color: var(--color-white);
   padding: 1rem;
   resize: none;
 }
 
-.form-launch .btn-save,
-.form-launch .btn-photo {
+.form-note .btn-save,
+.form-note .btn-photo {
   background-color: var(--color-black);
   padding: 1rem 2rem;
   color: var(--color-white);
   cursor: pointer;
 }
 
-.form-launch .btn-photo {
+.form-note .btn-photo {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-.form-launch .buttons-form {
+.form-note .buttons-form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -62,14 +62,14 @@
   margin-bottom: 2rem;
 }
 
-.form-launch .buttons-form .cancell {
+.form-note .buttons-form .cancell {
   background-color: gray;
   padding: 1rem 2rem;
   color: var(--color-white);
   cursor: pointer;
 }
 
-.form-launch-container .parts {
+.form-note-container .parts {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -95,7 +95,7 @@
   cursor: pointer;
 }
 
-.form-launch-container .total-value {
+.form-note-container .total-value {
   margin-top: 2rem;
 }
 
@@ -103,22 +103,22 @@
   color: var(--color-red);
 }
 
-.form-launch-container .preview-image {
+.form-note-container .preview-image {
   object-fit: cover;
   border-radius: .5rem;
 }
 
 @media screen and (min-width: 48rem) {
-  .form-launch .forms .box-inputs {
+  .form-note .forms .box-inputs {
     display: flex;
     gap: 1rem;
   }
 
-  .form-launch .forms .box-inputs .input-form {
+  .form-note .forms .box-inputs .input-form {
     flex: 1;
   }
 
-  .form-launch .buttons-form {
+  .form-note .buttons-form {
     flex-direction: row;
     align-items: center;
   }

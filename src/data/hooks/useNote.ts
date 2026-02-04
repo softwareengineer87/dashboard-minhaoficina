@@ -1,13 +1,13 @@
 
 import { useContext, useState } from "react";
-import type Launch from "../../models/Launch";
 import type Part from "../../models/Part";
 import { baseURL } from "../../utils/api";
-import { AuthContext } from "../contexts/AuthContext";
+import Note from "@/models/Note";
+import { Auth } from "../contexts/Auth";
 
-function useLaunch() {
+function useNote() {
 
-  const [launch, setLaunch] = useState<Launch[]>([]);
+  const [note, setNote] = useState<Note[]>([]);
   const [partsList, setPartsList] = useState<Part[]>([]);
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
@@ -15,9 +15,9 @@ function useLaunch() {
   const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
   const [dataPhoto, setDataPhoto] = useState({} as any);
-  const [idLaunch, setIdLaunch] = useState<string>('');
+  const [idNote, setIdNote] = useState<string>('');
 
-  const { business } = useContext(AuthContext);
+  const { business } = useContext(Auth);
 
   function handleActiveMessage() {
     setActiveMessage(true);
@@ -26,44 +26,44 @@ function useLaunch() {
     }, 4000);
   }
 
-  async function saveLaunch(launch: Launch) {
+  async function saveNote(note: Note) {
     try {
-      const responseLaunch = await fetch(`${baseURL}/create-launch/${business.payload.businessId}`, {
+      const responseNote = await fetch(`${baseURL}/notes/${business.payload.businessId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          launchId: launch.launchId,
-          name: launch.name,
-          date: launch.date,
-          tel: launch.tel,
-          cpf: launch.cpf,
-          model: launch.model,
-          kilometer: launch.kilometer,
-          plate: launch.plate,
-          observation: launch.observation,
+          noteId: note.noteId,
+          name: note.name,
+          date: note.date,
+          tel: note.tel,
+          cpf: note.cpf,
+          model: note.model,
+          kilometer: note.kilometer,
+          plate: note.plate,
+          observation: note.observation,
         })
       });
-      const dataLaunch = await responseLaunch.json();
+      const dataNote = await responseNote.json();
       handleActiveMessage();
-      if (dataLaunch.statusCode === 500) {
-        setMessage(dataLaunch.message);
-        setStatus(responseLaunch.ok);
+      if (dataNote.statusCode === 500) {
+        setMessage(dataNote.message);
+        setStatus(responseNote.ok);
       }
-      setMessage(dataLaunch.message);
-      setStatus(responseLaunch.ok);
-      setIdLaunch(dataLaunch.launchId);
+      setMessage(dataNote.message);
+      setStatus(responseNote.ok);
+      setIdNote(dataNote.noteId);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function savePhoto(file: any, launchId: string) {
+  async function savePhoto(file: any, noteId: string) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const responsePhoto = await fetch(`${baseURL}/photo/${launchId}`, {
+      const responsePhoto = await fetch(`${baseURL}/photo/${noteId}`, {
         method: 'POST',
         body: formData
       });
@@ -82,9 +82,9 @@ function useLaunch() {
     }
   }
 
-  async function savePart(name: string, price: number, launchId: string) {
+  async function savePart(name: string, price: number, noteId: string) {
     try {
-      const response = await fetch(`${baseURL}/create-part/${launchId}`, {
+      const response = await fetch(`${baseURL}/create-part/${noteId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -108,9 +108,9 @@ function useLaunch() {
     }
   }
 
-  async function loadParts(launchId: string) {
+  async function loadParts(noteId: string) {
     try {
-      const response = await fetch(`${baseURL}/parts/${launchId}`);
+      const response = await fetch(`${baseURL}/parts/${noteId}`);
       const data = await response.json();
       setPartsList(data);
     } catch (error) {
@@ -118,9 +118,9 @@ function useLaunch() {
     }
   }
 
-  async function loadPhoto(launchId: string) {
+  async function loadPhoto(noteId: string) {
     try {
-      const response = await fetch(`${baseURL}/photos/${launchId}`);
+      const response = await fetch(`${baseURL}/photos/${noteId}`);
       const data = await response.json();
       if (data) {
         return data;
@@ -131,16 +131,16 @@ function useLaunch() {
   }
 
   return {
-    launch,
-    saveLaunch,
-    setLaunch,
+    note,
+    saveNote,
+    setNote,
     loadParts,
     partsList,
     setPartsList,
     savePart,
     dataPhoto,
     savePhoto,
-    idLaunch,
+    idNote,
     loadPhoto,
     message,
     status,
@@ -148,4 +148,4 @@ function useLaunch() {
   }
 }
 
-export default useLaunch;
+export default useNote;
