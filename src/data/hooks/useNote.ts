@@ -35,14 +35,15 @@ function useNote() {
         },
         body: JSON.stringify({
           noteId: note.noteId,
+          email: note.email,
           name: note.name,
-          date: note.date,
-          tel: note.tel,
           cpf: note.cpf,
+          phone: note.phone,
           model: note.model,
           kilometer: note.kilometer,
           plate: note.plate,
           observation: note.observation,
+          date: note.date
         })
       });
       const dataNote = await responseNote.json();

@@ -99,13 +99,23 @@ function FormNote({
         <form className='forms'>
           <div className='box-inputs'>
             <div className='input-form'>
+              <label htmlFor='name'>E-mail</label>
+              <input
+                onChange={(e) => changeNote({ ...note, email: e.target.value })}
+                value={note.email}
+                type='text'
+                id='name'
+                placeholder='E-mail do cliente'
+              />
+            </div>
+            <div className='input-form'>
               <label htmlFor='name'>Nome</label>
               <input
                 onChange={(e) => changeNote({ ...note, name: e.target.value })}
                 value={note.name}
                 type='text'
                 id='name'
-                placeholder='Nome'
+                placeholder='Nome do cliente'
               />
             </div>
             <div className='input-form'>
@@ -115,16 +125,16 @@ function FormNote({
                 value={note.cpf}
                 type='text'
                 id='cpf'
-                placeholder='CPF' />
+                placeholder='CPF do cliente' />
             </div>
             <div className='input-form'>
               <label htmlFor='tel'>Telefone</label>
               <input
-                onChange={(e) => changeNote({ ...note, tel: e.target.value })}
-                value={note.tel}
+                onChange={(e) => changeNote({ ...note, phone: e.target.value })}
+                value={note.phone}
                 type='text'
                 id='tel'
-                placeholder='Telefone'
+                placeholder='Telefone do cliente'
               />
             </div>
           </div>
@@ -136,7 +146,7 @@ function FormNote({
                 value={note.model}
                 type='text'
                 id='model'
-                placeholder='Modelo'
+                placeholder='Modelo do veiculo'
               />
             </div>
             <div className='input-form'>

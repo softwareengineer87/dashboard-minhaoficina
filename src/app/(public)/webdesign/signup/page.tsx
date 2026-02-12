@@ -13,12 +13,7 @@ function Signup() {
 
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [cpf, setCpf] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [city, setCity] = useState<string>('');
-  const [district, setDistrict] = useState<string>('');
-  const [addressNumber, setAddressNumber] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
   const [file, setFile] = useState(null);
 
   const {
@@ -31,16 +26,10 @@ function Signup() {
 
   async function handleSignup(e: FormEvent) {
     e.preventDefault();
-    console.log(name);
     const inputBusiness = {
       name,
       email,
-      cpf,
       password,
-      city,
-      district,
-      address_number: addressNumber,
-      description
     }
     await saveBusiness(inputBusiness);
   }
@@ -95,14 +84,6 @@ function Signup() {
               id='email'
               placeholder='E-mail da empresa'
             />
-            <label htmlFor='email'>CPF</label>
-            <input
-              onChange={(e) => setCpf(e.target.value)}
-              value={cpf}
-              type='text'
-              id='cpf'
-              placeholder='CPF da empresa'
-            />
             <label htmlFor='password'>Senha</label>
             <input
               onChange={(e) => setPassword(e.target.value)}
@@ -110,38 +91,6 @@ function Signup() {
               type='password'
               id='password'
               placeholder='Senha da empresa'
-            />
-            <label htmlFor='city'>Cidade</label>
-            <input
-              onChange={(e) => setCity(e.target.value)}
-              value={city}
-              type='text'
-              id='city'
-              placeholder='Cidade'
-            />
-            <label htmlFor='district'>Bairro</label>
-            <input
-              onChange={(e) => setDistrict(e.target.value)}
-              value={district}
-              type='text'
-              id='district'
-              placeholder='Bairro'
-            />
-            <label htmlFor='address-number'>Número do estabelecimento</label>
-            <input
-              onChange={(e) => setAddressNumber(e.target.value)}
-              value={addressNumber}
-              type='number'
-              id='address-number'
-              placeholder='Número do estabelecimento'
-            />
-            <label htmlFor='description'>Descrição</label>
-            <textarea
-              rows={4}
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-              id='description'
-              placeholder='Uma descrição breve dos serviços que sua empresa presta.'
             />
             <input
               type='submit'

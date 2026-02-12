@@ -7,6 +7,7 @@ import { Message } from '@/components/Message';
 import { Auth } from '@/data/contexts/Auth';
 import Image from 'next/image';
 import LoginImage from '../../../../public/login.svg';
+import { useRouter } from 'next/navigation';
 
 function SignIn() {
   const {
@@ -16,12 +17,16 @@ function SignIn() {
     activeMessage
   } = useContext(Auth);
 
+  const router = useRouter();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
-    await login(email, password);
+    const response = await login(email, password);
+    if (response.ok)
+      router.push('/');
   }
 
   return (

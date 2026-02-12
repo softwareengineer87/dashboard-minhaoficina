@@ -68,6 +68,7 @@ function AuthProvider2({ children }: AuthProviderProps) {
         setLocalStorage('business-payload', data);
         redirectTo('/');
       }
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +97,7 @@ function AuthProvider2({ children }: AuthProviderProps) {
 
   async function saveBusiness(business: Business) {
     try {
-      const response = await fetch(`${baseURL}/business`, {
+      const response = await fetch(`${baseURL}/business/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -104,12 +105,7 @@ function AuthProvider2({ children }: AuthProviderProps) {
         body: JSON.stringify({
           name: business.name,
           email: business.email,
-          cpf: business.cpf,
-          password: business.password,
-          city: business.city,
-          district: business.district,
-          address_number: business.addressNumber,
-          description: business.description
+          password: business.password
         })
       });
       const data = await response.json();
@@ -130,7 +126,7 @@ function AuthProvider2({ children }: AuthProviderProps) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const response = await fetch(`${baseURL}/photo/${businessId}`, {
+      const response = await fetch(`${baseURL}/business/logo/${businessId}`, {
         method: 'POST',
         body: formData
       });
