@@ -26,20 +26,6 @@ function useBusiness() {
     }, 7000);
   }
 
-  async function loadBusiness(businesId: string) {
-    try {
-      const response = await fetch(`${baseURL}/business/${businesId}`, {
-        headers: {
-          'Authorization': `Bearer ${business.token}`,
-        }
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function loadPhoto(businesId: string) {
     try {
       const response = await fetch(`${baseURL}/business/photos/${businesId}`);
@@ -180,7 +166,6 @@ function useBusiness() {
   }, []);
 
   return {
-    loadBusiness,
     updateBusiness,
     customers,
     blockCustomer,

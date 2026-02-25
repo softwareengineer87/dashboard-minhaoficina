@@ -4,8 +4,8 @@ import './form-business.css';
 interface FormBusinessProps {
   showForm: boolean;
   deactive(): void;
-  business: Business;
-  changeBusiness(business: Business): void;
+  business: Partial<Business>;
+  changeBusiness(business: Partial<Business>): void;
   save(): void;
 }
 
@@ -50,43 +50,11 @@ function FormBusiness({
               <label htmlFor='password'>Senha</label>
               <input
                 onChange={(e) => changeBusiness({ ...business, password: e.target.value })}
-
+                value={business.password || ''}
                 type='password'
                 id='password'
                 required={true}
-                placeholder='Senha'
-              />
-            </div>
-          </div>
-          <div className='box-inputs'>
-            <div className='input-form'>
-              <label htmlFor='city'>Cidade</label>
-              <input
-                onChange={(e) => changeBusiness({ ...business, city: e.target.value })}
-                value={business.city}
-                type='text'
-                id='city'
-                placeholder='Cidade'
-              />
-            </div>
-            <div className='input-form'>
-              <label htmlFor='district'>Bairro</label>
-              <input
-                onChange={(e) => changeBusiness({ ...business, district: e.target.value })}
-                value={business.district}
-                type='text'
-                id='district'
-                placeholder='Bairro'
-              />
-            </div>
-            <div className='input-form'>
-              <label htmlFor='number'>Nº</label>
-              <input
-                onChange={(e) => changeBusiness({ ...business, addressNumber: Number(e.target.value) })}
-                value={business.addressNumber}
-                type='number'
-                id='number'
-                placeholder='Número'
+                placeholder='Deixe em branco para manter a senha atual'
               />
             </div>
           </div>

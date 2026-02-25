@@ -5,10 +5,6 @@ export type BusinessPayload = {
     businessId: string;
     name: string;
     email: string;
-    city: string;
-    district: string;
-    addressNumber: number;
-    logo: string;
   }
 }
 

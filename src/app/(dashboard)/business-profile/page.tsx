@@ -1,6 +1,5 @@
 'use client';
 
-import { useBusiness } from '@/data/hooks/useBusiness';
 import './profile.css';
 import { useContext, useEffect, useState } from 'react';
 import { Photo } from '@/types/Photo';
@@ -9,52 +8,60 @@ import Image from 'next/image';
 import { Business } from '@/models/Business';
 import { FormBusiness } from '@/components/FormBusiness';
 import { Message } from '@/components/Message';
+import { IconUser } from '@tabler/icons-react';
+import { baseURL } from '@/utils/api';
 
 function BusinessProfile() {
 
   const [photo, setPhoto] = useState<Photo>({} as Photo);
   const [businessDetail, setBusinessDetail] = useState<Business>({} as Business);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [businessForm, setBusinessForm] = useState<Business>({} as Business);
-
-  const { business } = useContext(Auth);
+  const [businessForm, setBusinessForm] = useState<Partial<Business> | null>(null);
 
   const {
-    loadPhoto,
-    loadBusiness,
+    business,
     updateBusiness,
     message,
     status,
     activeMessage
-  } = useBusiness();
+  } = useContext(Auth);
 
-  async function getPhoto() {
-    const data = await loadPhoto(business.payload?.businessId);
-    setPhoto(data);
-  }
-
-  async function getBusinessDetail() {
-    const data = await loadBusiness(business.payload?.businessId);
-    setBusinessDetail(data);
-  }
-
-  async function saveBusiness() {
-    await updateBusiness(business.businessId, businessForm);
-    setShowForm(false);
-  }
+  // async function getPhoto() {
+  // const data = await loadPhoto(business.payload?.businessId);
+  // setPhoto(data);
+  // }
 
   function deactive() {
     setShowForm(false);
   }
 
-  useEffect(() => {
-    getPhoto();
-    getBusinessDetail();
-  }, []);
+  async function loadBusiness(businesId: string) {
+    try {
+      const response = await fetch(`${baseURL}/business/getbyid/${businesId}`);
+      const data = await response.json();
+      if (data) {
+        setBusinessDetail(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function changeForm(business: Business) {
+    setBusinessForm(business);
+    setShowForm(true);
+  }
+
+  async function update() {
+    await updateBusiness(business.payload.businessId, businessForm);
+    setShowForm(false);
+    loadBusiness(business.payload.businessId);
+  }
 
   useEffect(() => {
-    setBusinessForm(businessDetail);
-  }, [businessDetail]);
+    // getPhoto();
+    loadBusiness(business.payload?.businessId);
+  }, [loadBusiness]);
 
   return (
     <section className='profile-container'>
@@ -69,34 +76,36 @@ function BusinessProfile() {
           <p>Seu plano <h3>{businessDetail.plan}</h3></p>
         </div>
       </div>
-      <button
-        className='edit-profile'
-        onClick={() => setShowForm((state) => !state)}
-      >
-        Editar perfil
-      </button>
       {showForm ? (
         <FormBusiness
           showForm={showForm}
           deactive={deactive}
-          business={businessForm}
+          business={businessForm!}
           changeBusiness={setBusinessForm}
-          save={saveBusiness}
+          save={update}
         />
       ) : (
         <div className='profile'>
-          <Image
-            src={photo.url}
-            width={300}
-            height={150}
-            alt='Logotipo da empresa'
-            className='image-profile'
-          />
-          <div className='info-um'>
+          <button
+            className='edit-profile'
+            onClick={() => changeForm(businessDetail)}
+          >
+            Editar perfil
+          </button>
+          {photo ? (
+            <Image
+              src={photo.url}
+              width={300}
+              height={150}
+              alt='Logotipo da empresa'
+              className='image-profile'
+            />
+          ) : (
+            <IconUser size={20} />
+          )}
+          <div className='info-business'>
             <p><h3>Nome: </h3> {businessDetail.name}</p>
             <p><h3>Email: </h3> {businessDetail.email}</p>
-            <p><h3>Cidade: </h3> {businessDetail.city}</p>
-            <p><h3>Bairro: </h3> {businessDetail.district}</p>
           </div>
         </div>
       )}

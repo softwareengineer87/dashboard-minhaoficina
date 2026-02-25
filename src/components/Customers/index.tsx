@@ -15,13 +15,16 @@ function Customers() {
     unlockCustomer,
     canSchedule,
     setCanSchedule,
-    loadBusiness,
     setOffset,
     limit,
     message,
     status,
     activeMessage
   } = useBusiness();
+
+  const {
+    loadBusiness
+  } = useContext(Auth)
 
   const { business } = useContext(Auth);
 

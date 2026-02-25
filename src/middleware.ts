@@ -9,12 +9,13 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const publicRoute = publicRoutes.find((route) => route.path === path);
   const authToken = request.cookies.get('minhaoficina-token');
+  const hasToken = request.cookies.has('minhaoficina-token');
 
   if (!authToken && publicRoute) {
     return NextResponse.next();
   }
 
-  if (!authToken && !publicRoute) {
+  if (!authToken && !publicRoute || !hasToken) {
     return NextResponse.redirect(new URL('sign-in', request.url));
   }
 

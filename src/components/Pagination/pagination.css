@@ -1,0 +1,23 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.pagination .icon {
+  color: var(--text);
+  cursor: pointer;
+}
+
+.pagination .numbers {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination .numbers p {
+  cursor: pointer;
+  padding: 1rem;
+}

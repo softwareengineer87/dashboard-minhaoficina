@@ -1,12 +1,12 @@
 'use client';
 
 import { Business } from "@/models/Business";
-import { BusinessPayload } from "@/types/Business";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { baseURL } from "@/utils/api";
 import { setCookie, destroyCookie } from "nookies";
+import { BusinessPayload } from "@/types/Business";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -36,7 +36,7 @@ function AuthProvider2({ children }: AuthProviderProps) {
   function redirectTo(url: string) {
     setTimeout(() => {
       push(url);
-    }, 3000);
+    }, 5000);
   }
 
   async function login(email: string, password: string) {
@@ -80,12 +80,12 @@ function AuthProvider2({ children }: AuthProviderProps) {
     setBusiness({} as BusinessPayload);
     handleActiveMessage();
     setMessage('Logout feito, você está sendo redirecionado.');
-    redirectTo('/');
+    redirectTo('/sign-in');
   }
 
   async function loadBusiness(businesId: string) {
     try {
-      const response = await fetch(`${baseURL}/business/${businesId}`);
+      const response = await fetch(`${baseURL}/business/getbyid/${businesId}`);
       const data = await response.json();
       if (data) {
         setBusinessDetail(data);
@@ -99,6 +99,33 @@ function AuthProvider2({ children }: AuthProviderProps) {
     try {
       const response = await fetch(`${baseURL}/business/signup`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: business.name,
+          email: business.email,
+          password: business.password
+        })
+      });
+      const data = await response.json();
+      handleActiveMessage();
+      if (data.statusCode === 500) {
+        setMessage(data.message);
+        setStatus(response.ok);
+      }
+      setBusinessId(data.businessId);
+      setMessage(data.message);
+      setStatus(response.ok);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateBusiness(businessId: string, business: Business) {
+    try {
+      const response = await fetch(`${baseURL}/business/update/${businessId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -152,10 +179,13 @@ function AuthProvider2({ children }: AuthProviderProps) {
     }
   }, [getLocalStorage]);
 
+  console.log(business);
+
   return (
     <Auth.Provider value={{
       login,
       business,
+      updateBusiness,
       logout,
       loadBusiness,
       businessDetail,

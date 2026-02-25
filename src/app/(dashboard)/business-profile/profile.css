@@ -5,6 +5,12 @@
   margin-bottom: 2rem;
 }
 
+.profile-container .profile {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .profile .image-profile {
   width: 100%;
   object-fit: cover;
