@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Message } from '@/components/Message';
 import { Format } from '@/utils/Format';
 import { Search } from '@/components/Search';
+import { Notes } from '@/components/Notes';
 
 export default function Home() {
 
@@ -63,6 +64,7 @@ export default function Home() {
         description='Este mes'
         icon={<IconCalendarMonth />}
       />
+      <Notes />
     </main>
   );
 }

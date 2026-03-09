@@ -7,7 +7,7 @@ import { Auth } from "../contexts/Auth";
 
 function useNote() {
 
-  const [note, setNote] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
   const [partsList, setPartsList] = useState<Part[]>([]);
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
@@ -131,10 +131,24 @@ function useNote() {
     }
   }
 
+  async function loadNotes(page: number) {
+    try {
+      const response = await fetch(`/notes?page=${page}`);
+      const data = await response.json();
+      console.log(data);
+      return {
+        notes: data.notes,
+        pagination: data.pagination
+      };
+    } catch (error: any) {
+      console.log(`Erro ao carregar notas: ${error.message}`)
+    }
+  }
+
   return {
-    note,
+    notes,
     saveNote,
-    setNote,
+    setNotes,
     loadParts,
     partsList,
     setPartsList,
@@ -143,6 +157,7 @@ function useNote() {
     savePhoto,
     idNote,
     loadPhoto,
+    loadNotes,
     message,
     status,
     activeMessage

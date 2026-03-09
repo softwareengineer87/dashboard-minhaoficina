@@ -7,6 +7,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { baseURL } from "@/utils/api";
 import { setCookie, destroyCookie } from "nookies";
 import { BusinessPayload } from "@/types/Business";
+import { Logo } from "@/models/Logo";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -23,6 +24,7 @@ function AuthProvider2({ children }: AuthProviderProps) {
   const { getLocalStorage, setLocalStorage, deleteLocalStorage } = useLocalStorage();
   const [dataPhoto, setDataPhoto] = useState({} as any);
   const [businessId, setBusinessId] = useState<string>('');
+  const [logoData, setLogoData] = useState<Logo | null>(null);
 
   const { push } = useRouter();
 
@@ -149,11 +151,11 @@ function AuthProvider2({ children }: AuthProviderProps) {
     }
   }
 
-  async function savePhoto(file: any) {
+  async function savePhoto(file: File) {
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      const response = await fetch(`${baseURL}/business/logo/${businessId}`, {
+      formData.append('imagem', file);
+      const response = await fetch(`${baseURL}/business/logo/${business.payload.businessId}`, {
         method: 'POST',
         body: formData
       });
@@ -172,6 +174,16 @@ function AuthProvider2({ children }: AuthProviderProps) {
     }
   }
 
+  async function getLogo() {
+    try {
+      const response = await fetch(`${baseURL}/business/logo/${business.payload.businessId}`);
+      const data = await response.json();
+      setLogoData(data);
+    } catch (error: any) {
+      console.log(`Erro ao obter logo: ${error.message}`);
+    }
+  }
+
   useEffect(() => {
     const businessData = getLocalStorage('business-payload');
     if (businessData) {
@@ -179,7 +191,9 @@ function AuthProvider2({ children }: AuthProviderProps) {
     }
   }, [getLocalStorage]);
 
-  console.log(business);
+  useEffect(() => {
+    getLogo();
+  }, []);
 
   return (
     <Auth.Provider value={{
@@ -192,6 +206,8 @@ function AuthProvider2({ children }: AuthProviderProps) {
       saveBusiness,
       savePhoto,
       dataPhoto,
+      getLogo,
+      logoData,
       message,
       status,
       activeMessage

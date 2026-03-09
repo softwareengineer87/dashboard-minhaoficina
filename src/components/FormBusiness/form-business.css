@@ -50,6 +50,31 @@
   cursor: pointer;
 }
 
+.input-box {
+  display: flex;
+  align-self: flex-start;
+  margin-top: 2rem;
+}
+
+.input-box .input-file {
+  display: none;
+}
+
+.input-box .btn-file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: gray;
+  color: var(--color-white);
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+.form-business h3 {
+  margin-top: 2rem;
+  color: darkgray;
+}
+
 @media screen and (min-width: 48rem) {
   .form-business .forms .box-inputs {
     display: flex;

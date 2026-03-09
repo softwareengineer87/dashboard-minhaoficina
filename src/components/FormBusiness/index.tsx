@@ -1,5 +1,7 @@
+import { ChangeEvent, useState } from 'react';
 import type { Business } from '../../models/Business';
 import './form-business.css';
+import { IconUpload } from '@tabler/icons-react';
 
 interface FormBusinessProps {
   showForm: boolean;
@@ -7,6 +9,8 @@ interface FormBusinessProps {
   business: Partial<Business>;
   changeBusiness(business: Partial<Business>): void;
   save(): void;
+  changeLogo(e: ChangeEvent<HTMLInputElement>): void;
+  updateLogo(): void;
 }
 
 function FormBusiness({
@@ -14,8 +18,12 @@ function FormBusiness({
   deactive,
   business,
   changeBusiness,
-  save
+  save,
+  changeLogo,
+  updateLogo
 }: FormBusinessProps) {
+
+  const [logo, setLogo] = useState<File | null>(null);
 
   return (
     <section className={`
@@ -68,6 +76,33 @@ function FormBusiness({
           </button>
         </div>
 
+        <h3>Fazer upload do logotipo</h3>
+        <form>
+          <div className='input-box'>
+            <input
+              id='logo'
+              type='file'
+              className='input-file'
+              onChange={(e) => {
+                changeLogo(e);
+                setLogo(e.target.files![0]);
+              }}
+            />
+            <label
+              htmlFor='logo'
+              className='btn-file'
+            >
+              <IconUpload />
+              {logo ? logo.name : 'Selecionar arquivo'}
+            </label>
+          </div>
+        </form>
+        <button
+          className='btn-logo'
+          onClick={updateLogo}
+        >
+          Fazer upload
+        </button>
       </div>
     </section>
   );

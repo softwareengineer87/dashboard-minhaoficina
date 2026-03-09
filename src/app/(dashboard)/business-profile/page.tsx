@@ -1,8 +1,7 @@
 'use client';
 
 import './profile.css';
-import { useContext, useEffect, useState } from 'react';
-import { Photo } from '@/types/Photo';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Auth } from '@/data/contexts/Auth';
 import Image from 'next/image';
 import { Business } from '@/models/Business';
@@ -13,7 +12,7 @@ import { baseURL } from '@/utils/api';
 
 function BusinessProfile() {
 
-  const [photo, setPhoto] = useState<Photo>({} as Photo);
+  const [logo, setLogo] = useState<File | null>(null);
   const [businessDetail, setBusinessDetail] = useState<Business>({} as Business);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [businessForm, setBusinessForm] = useState<Partial<Business> | null>(null);
@@ -21,6 +20,9 @@ function BusinessProfile() {
   const {
     business,
     updateBusiness,
+    savePhoto,
+    getLogo,
+    logoData,
     message,
     status,
     activeMessage
@@ -30,6 +32,17 @@ function BusinessProfile() {
   // const data = await loadPhoto(business.payload?.businessId);
   // setPhoto(data);
   // }
+  //
+  async function updateLogo() {
+    await savePhoto(logo);
+  }
+
+  function changeLogo(e: ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) {
+      return;
+    }
+    setLogo(e.target.files[0]);
+  }
 
   function deactive() {
     setShowForm(false);
@@ -61,6 +74,7 @@ function BusinessProfile() {
   useEffect(() => {
     // getPhoto();
     loadBusiness(business.payload?.businessId);
+    getLogo();
   }, [loadBusiness]);
 
   return (
@@ -83,6 +97,8 @@ function BusinessProfile() {
           business={businessForm!}
           changeBusiness={setBusinessForm}
           save={update}
+          changeLogo={changeLogo}
+          updateLogo={updateLogo}
         />
       ) : (
         <div className='profile'>
@@ -90,11 +106,11 @@ function BusinessProfile() {
             className='edit-profile'
             onClick={() => changeForm(businessDetail)}
           >
-            Editar perfil
+            Editar seus dados
           </button>
-          {photo ? (
+          {logoData ? (
             <Image
-              src={photo.url}
+              src={logoData.url}
               width={300}
               height={150}
               alt='Logotipo da empresa'
