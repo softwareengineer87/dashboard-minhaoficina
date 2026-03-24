@@ -31,7 +31,7 @@ function Header() {
             <span>{business.payload?.email}</span>
           </div>
           <span className="icon-user">
-            {logoData ? (
+            {logoData && logoData.url ? (
               <Image
                 src={logoData.url}
                 width={300}
@@ -40,7 +40,13 @@ function Header() {
                 className='image-profile'
               />
             ) : (
-              <IconUser size={20} />
+              <Image
+                src='./avatar.svg'
+                width={300}
+                height={150}
+                alt='Logotipo da empresa'
+                className='image-profile'
+              />
             )}
           </span>
         </div>

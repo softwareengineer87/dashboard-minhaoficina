@@ -21,18 +21,19 @@ function Pagination({ pagination, changePage }: PaginationProps) {
       )}
       <div className='numbers'>
         <p
+          className='link-all'
           onClick={() => changePage(pagination.prevPage)}>
           {pagination.prevPage !== pagination.actualPage && pagination.prevPage}
         </p>
         <p
-          className={`${pagination.actualPage && 'active'}`}
+          className={`link-all ${pagination.actualPage && 'active'}`}
           onClick={() => changePage(pagination.actualPage)}>
           {pagination.actualPage}
         </p>
         <p
-          className={`${pagination.actualPage === pagination.lastPage && 'active'}`}
+          className={`link-all ${pagination.actualPage === pagination.lastPage && 'active'}`}
           onClick={() => changePage(pagination.nextPage)}>
-          {pagination.nextPage !== pagination.actualPage && pagination.nextPage}
+          {pagination.nextPage !== pagination.actualPage && pagination.nextPage !== 0 && pagination.nextPage}
         </p>
       </div>
       {pagination.actualPage !== pagination.lastPage && (

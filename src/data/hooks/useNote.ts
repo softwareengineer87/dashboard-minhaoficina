@@ -4,6 +4,7 @@ import type Part from "../../models/Part";
 import { baseURL } from "../../utils/api";
 import Note from "@/models/Note";
 import { Auth } from "../contexts/Auth";
+import { PaginationModel } from "@/models/PaginationModel";
 
 function useNote() {
 
@@ -12,10 +13,9 @@ function useNote() {
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
   const [activeMessage, setActiveMessage] = useState<boolean>(false);
-  const [limit, setLimit] = useState<number>(10);
-  const [offset, setOffset] = useState<number>(0);
   const [dataPhoto, setDataPhoto] = useState({} as any);
   const [idNote, setIdNote] = useState<string>('');
+  const [pagination, setPagination] = useState<PaginationModel>({} as PaginationModel);
 
   const { business } = useContext(Auth);
 
@@ -131,15 +131,13 @@ function useNote() {
     }
   }
 
-  async function loadNotes(page: number) {
+  async function loadNotes(page: number, name: string = '') {
     try {
-      const response = await fetch(`/notes?page=${page}`);
+      const response = await fetch(`${baseURL}/notes/${business.payload?.businessId}?page=${page}&name=${name}`);
+      console.log(response);
       const data = await response.json();
-      console.log(data);
-      return {
-        notes: data.notes,
-        pagination: data.pagination
-      };
+      setNotes(data.notes);
+      setPagination(data.pagination);
     } catch (error: any) {
       console.log(`Erro ao carregar notas: ${error.message}`)
     }
@@ -147,6 +145,7 @@ function useNote() {
 
   return {
     notes,
+    pagination,
     saveNote,
     setNotes,
     loadParts,

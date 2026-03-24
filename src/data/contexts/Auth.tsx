@@ -178,7 +178,9 @@ function AuthProvider2({ children }: AuthProviderProps) {
     try {
       const response = await fetch(`${baseURL}/business/logo/${business.payload.businessId}`);
       const data = await response.json();
-      setLogoData(data);
+      if (data) {
+        setLogoData(data);
+      }
     } catch (error: any) {
       console.log(`Erro ao obter logo: ${error.message}`);
     }

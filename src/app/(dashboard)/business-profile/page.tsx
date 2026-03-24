@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { Business } from '@/models/Business';
 import { FormBusiness } from '@/components/FormBusiness';
 import { Message } from '@/components/Message';
-import { IconUser } from '@tabler/icons-react';
 import { baseURL } from '@/utils/api';
 
 function BusinessProfile() {
@@ -28,13 +27,10 @@ function BusinessProfile() {
     activeMessage
   } = useContext(Auth);
 
-  // async function getPhoto() {
-  // const data = await loadPhoto(business.payload?.businessId);
-  // setPhoto(data);
-  // }
-  //
   async function updateLogo() {
     await savePhoto(logo);
+    setShowForm(false);
+    getLogo();
   }
 
   function changeLogo(e: ChangeEvent<HTMLInputElement>) {
@@ -46,6 +42,7 @@ function BusinessProfile() {
 
   function deactive() {
     setShowForm(false);
+    getLogo();
   }
 
   async function loadBusiness(businesId: string) {
@@ -72,10 +69,9 @@ function BusinessProfile() {
   }
 
   useEffect(() => {
-    // getPhoto();
     loadBusiness(business.payload?.businessId);
     getLogo();
-  }, [loadBusiness]);
+  }, []);
 
   return (
     <section className='profile-container'>
@@ -108,7 +104,7 @@ function BusinessProfile() {
           >
             Editar seus dados
           </button>
-          {logoData ? (
+          {logoData.url ? (
             <Image
               src={logoData.url}
               width={300}
@@ -117,7 +113,13 @@ function BusinessProfile() {
               className='image-profile'
             />
           ) : (
-            <IconUser size={20} />
+            <Image
+              src='./avatar.svg'
+              width={300}
+              height={150}
+              alt='Logotipo da empresa'
+              className='image-profile'
+            />
           )}
           <div className='info-business'>
             <p><h3>Nome: </h3> {businessDetail.name}</p>

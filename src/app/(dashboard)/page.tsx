@@ -1,11 +1,10 @@
 'use client';
 
 import './page.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Auth } from '@/data/contexts/Auth';
 import { StatisticCard } from '@/components/StatisticCard';
-import { IconCalendar, IconCalendarMonth, IconCurrencyDollar, IconPigMoney, IconTool, IconUsers } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { IconCalendar, IconCalendarMonth, IconCurrencyDollar, IconTool, IconUsers } from '@tabler/icons-react';
 import { Message } from '@/components/Message';
 import { Format } from '@/utils/Format';
 import { Search } from '@/components/Search';
@@ -13,21 +12,17 @@ import { Notes } from '@/components/Notes';
 
 export default function Home() {
 
-  const { push } = useRouter();
-
-
-  function redirectTo(url: string) {
-    setTimeout(() => {
-      push(url);
-    }, 3000);
-  }
-
   const {
     business,
+    getLogo,
     message,
     activeMessage,
     status
   } = useContext(Auth);
+
+  useEffect(() => {
+    getLogo();
+  }, [business]);
 
   return (
     <main className='container-main'>

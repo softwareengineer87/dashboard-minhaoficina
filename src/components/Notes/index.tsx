@@ -1,7 +1,7 @@
 
 import useNote from '@/data/hooks/useNote';
 import { Message } from '../Message';
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useContext, useEffect, useState } from 'react';
 import Note from '@/models/Note';
 import { IconChevronCompactLeft, IconChevronCompactRight, IconSearch, IconTrash } from '@tabler/icons-react';
 import { PaginationModel } from '@/models/PaginationModel';
@@ -9,6 +9,7 @@ import { Pagination } from '../Pagination';
 import { baseURL } from '@/utils/api';
 import './notes.css';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Auth } from '@/data/contexts/Auth';
 
 function Notes() {
 
@@ -19,10 +20,14 @@ function Notes() {
 
   const {
     // loadNotes,
+    // notes,
+    // pagination,
     message,
     activeMessage,
     status
   } = useNote();
+
+  const { business } = useContext(Auth);
 
   const searchParams = useSearchParams();
   const { push } = useRouter();
@@ -48,17 +53,18 @@ function Notes() {
       push(`${pathname}`);
     }
     setNameState(name);
-    await loadNotes(page, name!);
+    await loadNotes(business.payload?.businessId, pagePaginate, name!);
     setNameState('');
   }
 
-  async function loadNotes(page: number, name?: string) {
+  async function loadNotes(businessId: string, page: number, name?: string) {
     try {
+      const convertPage = page === 0 ? 1 : Number(page);
       let response;
       if (name) {
-        response = await fetch(`${baseURL}/notes?page=${page}&name=${name}`);
+        response = await fetch(`${baseURL}/notes/${businessId}?page=${convertPage}&name=${name}`);
       } else {
-        response = await fetch(`${baseURL}/notes?page=${page}`);
+        response = await fetch(`${baseURL}/notes/${businessId}?page=${convertPage}`);
       }
       const data = await response.json();
       setNotes(data.notes);
@@ -71,21 +77,17 @@ function Notes() {
   async function changePage(pageNumber: number) {
     push(`${pathname}?${createQueryString('page', String(pageNumber))}`);
     setPagePaginate(page);
-    await loadNotes(page);
+    await loadNotes(business.payload?.businessId, page);
   }
 
   async function showAll() {
     push(pathname);
-    await loadNotes(pagePaginate);
+    await loadNotes(business.payload?.businessId, pagePaginate);
   }
 
   useEffect(() => {
-    loadNotes(page, name!);
-  }, [changePage, name]);
-
-  useEffect(() => {
-    loadNotes(pagePaginate);
-  }, []);
+    loadNotes(business.payload?.businessId, page, name!);
+  }, [notes, name]);
 
   return (
     <section className='notes-container'>
@@ -162,39 +164,40 @@ function Notes() {
               ))}
             </tbody>
           </table>
-          <section className='pagination'>
-            {pagination.actualPage >= 2 && (
-              <button
-                onClick={() => changePage(pagination.actualPage - 1)}
-                className='icon'>
-                <IconChevronCompactLeft size={25} />
-              </button>
-            )}
-            <div className='numbers'>
-              <p
-                onClick={() => changePage(pagination.prevPage)}>
-                {pagination.prevPage !== pagination.actualPage && pagination.prevPage}
-              </p>
-              <p
-                className={`link-all ${pagination.actualPage && 'active'}`}
-                onClick={() => changePage(pagination.actualPage)}>
-                {pagination.actualPage}
-              </p>
-              <p
-                className={`link-all ${pagination.actualPage === pagination.lastPage && 'active'}`}
-                onClick={() => changePage(pagination.nextPage)}>
-                {pagination.nextPage !== pagination.actualPage && pagination.nextPage}
-              </p>
-            </div>
-            {pagination.actualPage !== pagination.lastPage && (
-              <button
-                onClick={() => changePage(pagination.actualPage + 1)}
-                className='icon'>
-                <IconChevronCompactRight size={25} />
-              </button>
-            )}
-          </section>
         </div>
+        <section className='pagination'>
+          {pagination.actualPage >= 2 && (
+            <button
+              onClick={() => changePage(pagination.actualPage - 1)}
+              className='icon'>
+              <IconChevronCompactLeft size={25} />
+            </button>
+          )}
+          <div className='numbers'>
+            <p
+              className='link-all'
+              onClick={() => changePage(pagination.prevPage)}>
+              {pagination.prevPage !== pagination.actualPage && pagination.prevPage}
+            </p>
+            <p
+              className={`link-all ${pagination.actualPage && 'active'}`}
+              onClick={() => changePage(pagination.actualPage)}>
+              {pagination.actualPage}
+            </p>
+            <p
+              className={`link-all ${pagination.actualPage === pagination.lastPage && 'active'}`}
+              onClick={() => changePage(pagination.nextPage)}>
+              {pagination.nextPage !== pagination.actualPage && pagination.nextPage !== 0 && pagination.nextPage}
+            </p>
+          </div>
+          {pagination.actualPage !== pagination.lastPage && (
+            <button
+              onClick={() => changePage(pagination.actualPage + 1)}
+              className='icon'>
+              <IconChevronCompactRight size={25} />
+            </button>
+          )}
+        </section>
       </div>
     </section>
   );

@@ -2,9 +2,11 @@ import generatePDF, { Margin } from 'react-to-pdf';
 import type Launch from '../../models/Note';
 import { formatPrice } from '@/utils/FormatPrice';
 import { PartPdf } from '../../models/Part';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './pdf.css';
-import useNote from '@/data/hooks/useNote';
+import { Auth } from '@/data/contexts/Auth';
+import Image from 'next/image';
+import { IconUpload } from '@tabler/icons-react';
 
 interface CreatePdfProps {
   data: Launch
@@ -20,17 +22,13 @@ function CreatePdf({
   const getTargetElement = () => document.getElementById('content-id');
 
   const {
-    loadPhoto
-  } = useNote();
+    getLogo,
+    business,
+    logoData,
+    loadBusiness
+  } = useContext(Auth);
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-  const [file, setFile] = useState(null);
-  const [createObjectURL, setCreateObjectURL] = useState(null);
-
-  async function getPhotos() {
-    const dataPhoto = await loadPhoto(data.launchId);
-    setImage(dataPhoto);
-  }
 
   function changeFile(e: any) {
     if (!e.target.files) return;
@@ -48,7 +46,13 @@ function CreatePdf({
     return (
       <form className='forms' encType='multipart/formdata'>
         <div className='input-form'>
-          <label htmlFor='file'>Fotos</label>
+          <label
+            htmlFor='file'
+            className='label-photos'
+          >
+            <IconUpload />
+            Selecionar Fotos
+          </label>
           <input
             onChange={changeFile}
             type='file'
@@ -56,22 +60,49 @@ function CreatePdf({
             accept='image/*'
             name='file'
             id='file'
+            className='btn-photos'
           />
         </div>
       </form>
     );
   }
 
+  useEffect(() => {
+    loadBusiness(business.payload?.businessId);
+    getLogo();
+  }, []);
+
   return (
     <section>
       <div className='pdf-container' id="content-id">
-        <h2>Dados da nota</h2>
+        <h2>Nota do cliente</h2>
+        <div className='header-pdf'>
+          <div className='top'>
+            <h4>{business.payload?.name}</h4>
+            <p>{business.payload?.email}</p>
+          </div>
+          {logoData && (
+            <Image
+              src={logoData.url}
+              width={100}
+              height={100}
+              objectFit='cover'
+              loading='lazy'
+              alt='Logotipo da empresa'
+              className='image-pdf'
+            />
+          )}
+        </div>
         <ul>
-          <li key={data.launchId}>
+          <li>
             {renderFormImage()}
             {previewImages.map((url, i) => (
-              <img
+              <Image
                 src={url}
+                width={100}
+                height={100}
+                objectFit='cover'
+                loading='lazy'
                 className='preview-image'
                 alt='Imagem'
               />
@@ -79,7 +110,7 @@ function CreatePdf({
             <div className='infos'>
               <p>Cliente: <strong>{data.name}</strong></p>
               <p>CPF: <strong>{data.cpf}</strong></p>
-              <p>Telefone: <strong>{data.tel}</strong></p>
+              <p>Telefone: <strong>{data.phone}</strong></p>
               <p>Data do lançamento: <strong>{data.date}</strong></p>
               <p>Modelo do veiculo: <strong>{data.model}</strong></p>
               <p>Kilometragem: <strong>{data.kilometer}</strong></p>
