@@ -133,7 +133,7 @@ function useNote() {
 
   async function loadNotes(page: number, name: string = '') {
     try {
-      const response = await fetch(`${baseURL}/notes/${business.payload?.businessId}?page=${page}&name=${name}`);
+      const response = await fetch(`${baseURL}/dashboard/notes/${business.payload?.businessId}?page=${page}&name=${name}`);
       console.log(response);
       const data = await response.json();
       setNotes(data.notes);

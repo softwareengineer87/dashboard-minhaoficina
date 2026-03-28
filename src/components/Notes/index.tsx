@@ -17,17 +17,20 @@ function Notes() {
   const [pagination, setPagination] = useState<PaginationModel>({} as PaginationModel);
   const [pagePaginate, setPagePaginate] = useState<number>(1);
   const [nameState, setNameState] = useState<string | null>('');
-
-  const {
-    // loadNotes,
-    // notes,
-    // pagination,
-    message,
-    activeMessage,
-    status
-  } = useNote();
+  const [message, setMessage] = useState<string>('');
+  const [status, setStatus] = useState<boolean>(false);
+  const [activeMessage, setActiveMessage] = useState<boolean>(false);
 
   const { business } = useContext(Auth);
+
+  function handleActiveMessage() {
+    setActiveMessage(true);
+    setMessage('Token invalido.');
+    setTimeout(() => {
+      setActiveMessage(false);
+    }, 4000);
+    push('sign-in');
+  }
 
   const searchParams = useSearchParams();
   const { push } = useRouter();
@@ -62,9 +65,16 @@ function Notes() {
       const convertPage = page === 0 ? 1 : Number(page);
       let response;
       if (name) {
-        response = await fetch(`${baseURL}/notes/${businessId}?page=${convertPage}&name=${name}`);
+        response = await fetch(`${baseURL}/dashboard/notes/${businessId}?page=${convertPage}&name=${name}`, {
+          credentials: 'include'
+        });
       } else {
-        response = await fetch(`${baseURL}/notes/${businessId}?page=${convertPage}`);
+        response = await fetch(`${baseURL}/dashboard/notes/${businessId}?page=${convertPage}`, {
+          credentials: 'include'
+        });
+      }
+      if (response.status === 401) {
+        handleActiveMessage();
       }
       const data = await response.json();
       setNotes(data.notes);
