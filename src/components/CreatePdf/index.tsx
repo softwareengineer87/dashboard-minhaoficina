@@ -81,7 +81,7 @@ function CreatePdf({
             <h4>{business.payload?.name}</h4>
             <p>{business.payload?.email}</p>
           </div>
-          {logoData && (
+          {logoData ? (
             <Image
               src={logoData.url}
               width={100}
@@ -91,6 +91,17 @@ function CreatePdf({
               alt='Logotipo da empresa'
               className='image-pdf'
             />
+          ) : (
+            <Image
+              src='./avatar.svg'
+              width={100}
+              height={100}
+              objectFit='cover'
+              loading='lazy'
+              alt='Logotipo da empresa'
+              className='image-pdf'
+            />
+
           )}
         </div>
         <ul>
