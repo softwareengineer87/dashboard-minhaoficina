@@ -1,49 +1,48 @@
-.form-business-container {
+.form-stock-container {
   margin-top: 2rem;
   transition: all .5s ease-in-out;
-  display: none;
 }
 
-.form-business-container.active {
+.form-stock-container.active {
   display: block;
 }
 
-.form-business.deactive {
+.form-stock.deactive {
   display: none;
 }
 
-.form-business .forms {
+.form-stock .forms {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.form-business .forms .input-form {
+.form-stock .forms .input-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.form-business .forms .input-form input {
+.form-stock .forms .input-form input {
   background-color: var(--color-white);
   padding: 1rem;
 }
 
-.form-business .btn-save {
+.buttons-form .btn-save {
   background-color: var(--color-black);
   padding: 1rem 2rem;
   color: var(--color-white);
   cursor: pointer;
 }
 
-.form-business .buttons-form {
+.buttons-form {
   display: flex;
-  flex-direction: column;
+  align-items: start;
   gap: 2rem;
   margin-top: 2rem;
 }
 
-.form-business .buttons-form .cancell {
+.buttons-form .cancell {
   background-color: gray;
   padding: 1rem 2rem;
   color: var(--color-white);
@@ -70,12 +69,12 @@
   cursor: pointer;
 }
 
-.form-business h3 {
+.form-stock h3 {
   margin-top: 2rem;
   color: darkgray;
 }
 
-.form-business .btn-logo {
+.form-stock .btn-logo {
   background-color: var(--color-red);
   color: var(--color-white);
   padding: .5rem 1rem;
@@ -91,16 +90,16 @@
 }
 
 @media screen and (min-width: 48rem) {
-  .form-business .forms .box-inputs {
+  .form-stock .forms .box-inputs {
     display: flex;
     gap: 1rem;
   }
 
-  .form-business .forms .box-inputs .input-form {
+  .form-stock .forms .box-inputs .input-form {
     flex: 1;
   }
 
-  .form-business .buttons-form {
+  .form-stock .buttons-form {
     flex-direction: row;
     align-items: center;
   }

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCalendar, IconChevronCompactLeft, IconChevronCompactRight, IconHome, IconLogout2, IconNote, IconNotes, IconTool, IconUser } from '@tabler/icons-react';
+import { IconCalendar, IconChevronCompactLeft, IconChevronCompactRight, IconHome, IconList, IconLogout2, IconNote, IconNotes, IconTool, IconUser } from '@tabler/icons-react';
 import './sidebar.css';
 import { useContext, useEffect, useState } from 'react';
 import { Message } from '../Message';
@@ -58,7 +58,8 @@ function Sidebar() {
             <li><Link className='link' href='/'><IconHome stroke={1} /><span className='close'>Home</span></Link></li>
             <li><Link className='link' href='/create-note'><IconNote stroke={1} /><span className='close'>Criar nota do cliente</span></Link></li>
             <li><Link className='link' href='/notes'><IconNotes stroke={1} /><span className='close'>Notas</span></Link></li>
-            <li><Link className='link' href='/business-profile'><IconUser stroke={1} /><span className='close'>Sua conta</span></Link></li>
+            <li><Link className='link' href='/stock'><IconList stroke={1} /><span className='close'>Estoque de Produtos</span></Link></li>
+            <li><Link className='link' href='/business-profile'><IconTool stroke={1} /><span className='close'>Sua conta</span></Link></li>
           </ul>
         </nav>
       </div>

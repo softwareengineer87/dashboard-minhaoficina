@@ -131,10 +131,22 @@ function useNote() {
     }
   }
 
-  async function loadNotes(page: number, name: string = '') {
+  async function loadNotes(businessId: string, page: number, name?: string) {
     try {
-      const response = await fetch(`${baseURL}/dashboard/notes/${business.payload?.businessId}?page=${page}&name=${name}`);
-      console.log(response);
+      const convertPage = page === 0 ? 1 : Number(page);
+      let response;
+      if (name) {
+        response = await fetch(`${baseURL}/dashboard/notes/${businessId}?page=${convertPage}&name=${name}`, {
+          credentials: 'include'
+        });
+      } else {
+        response = await fetch(`${baseURL}/dashboard/notes/${businessId}?page=${convertPage}`, {
+          credentials: 'include'
+        });
+      }
+      if (response.status === 401) {
+        handleActiveMessage();
+      }
       const data = await response.json();
       setNotes(data.notes);
       setPagination(data.pagination);

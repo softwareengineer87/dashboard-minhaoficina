@@ -19,6 +19,7 @@ function CreatePdf({
   partsList,
   totalPrice,
 }: CreatePdfProps) {
+
   const getTargetElement = () => document.getElementById('content-id');
 
   const {
@@ -81,7 +82,7 @@ function CreatePdf({
             <h4>{business.payload?.name}</h4>
             <p>{business.payload?.email}</p>
           </div>
-          {logoData ? (
+          {logoData.url ? (
             <Image
               src={logoData.url}
               width={100}
@@ -101,7 +102,6 @@ function CreatePdf({
               alt='Logotipo da empresa'
               className='image-pdf'
             />
-
           )}
         </div>
         <ul>

@@ -1,0 +1,14 @@
+.stock .box-stocks {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.stock .box-stocks .btn-create {
+  align-self: self-end;
+  background-color: var(--color-red);
+  padding: 2rem 3rem;
+  color: var(--color-white);
+  border-radius: .5rem;
+  cursor: pointer;
+}

@@ -1,7 +1,9 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import type { Business } from '../../models/Business';
 import './form-business.css';
 import { IconUpload } from '@tabler/icons-react';
+import Image from 'next/image';
+import { Auth } from '@/data/contexts/Auth';
 
 interface FormBusinessProps {
   showForm: boolean;
@@ -22,6 +24,10 @@ function FormBusiness({
   changeLogo,
   updateLogo
 }: FormBusinessProps) {
+
+  const {
+    logoData
+  } = useContext(Auth);
 
   const [logo, setLogo] = useState<File | null>(null);
 
@@ -76,33 +82,56 @@ function FormBusiness({
           </button>
         </div>
 
-        <h3>Fazer upload do logotipo</h3>
-        <form>
-          <div className='input-box'>
-            <input
-              id='logo'
-              type='file'
-              className='input-file'
-              onChange={(e) => {
-                changeLogo(e);
-                setLogo(e.target.files![0]);
-              }}
+        <div className='box-upload'>
+          <h3>Fazer upload do logotipo</h3>
+          <form>
+            <div className='input-box'>
+              <input
+                id='logo'
+                type='file'
+                className='input-file'
+                onChange={(e) => {
+                  changeLogo(e);
+                  setLogo(e.target.files![0]);
+                }}
+              />
+              <label
+                htmlFor='logo'
+                className='btn-file'
+              >
+                <IconUpload />
+                {logo ? logo.name : 'Selecionar arquivo'}
+              </label>
+            </div>
+          </form>
+          {logoData.url ? (
+            <Image
+              src={logoData.url}
+              width={100}
+              height={100}
+              objectFit='cover'
+              loading='lazy'
+              alt='Logotipo da empresa'
+              className='image-pdf'
             />
-            <label
-              htmlFor='logo'
-              className='btn-file'
-            >
-              <IconUpload />
-              {logo ? logo.name : 'Selecionar arquivo'}
-            </label>
-          </div>
-        </form>
-        <button
-          className='btn-logo'
-          onClick={updateLogo}
-        >
-          Fazer upload
-        </button>
+          ) : (
+            <Image
+              src='./avatar.svg'
+              width={100}
+              height={100}
+              objectFit='cover'
+              loading='lazy'
+              alt='Logotipo da empresa'
+              className='image-pdf'
+            />
+          )}
+          <button
+            className='btn-logo'
+            onClick={updateLogo}
+          >
+            Fazer upload
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -1,21 +1,31 @@
-import { useRouter } from "next/navigation";
-import { FormEvent, useCallback, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useCallback, useContext, useState } from "react";
+import { Auth } from "../contexts/Auth";
 
 interface UseSearchProps {
-  searchParams?: any;
-  pathname?: any;
+  load(
+    businessId: string,
+    page: number,
+    title?: string
+  ): Promise<void>;
+  paramName: string;
 }
 
 function useSearch({
-  searchParams,
-  pathname
+  load,
+  paramName
 }: UseSearchProps) {
 
-  const [nameState, setNameState] = useState<string | null>('');
+  const [inputTitle, setInputTitle] = useState<string | null>('');
+  const [inputPage, setInputPage] = useState<number>(0);
+
+  const { business } = useContext(Auth);
 
   const { push } = useRouter();
+  const searchParams = useSearchParams();
   const page = Number(searchParams.get('page'));
-  const name = searchParams.get('name');
+  const title = searchParams.get(paramName);
+  const pathname = usePathname();
 
   const createQueryString = useCallback((name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -23,24 +33,43 @@ function useSearch({
     return params.toString();
   }, [searchParams]);
 
-  async function search(data: (...args: any[]) => void, event: FormEvent) {
+
+  async function search(event: FormEvent) {
     event.preventDefault();
-    if (pathname.includes('page')) {
-      push(`${pathname}?${createQueryString('name', nameState!)}`);
+    const params = new URLSearchParams(searchParams.toString());
+    if (!params.has('page')) {
+      push(`${pathname}?${createQueryString('page', String(inputPage))}&${createQueryString(paramName, inputTitle!)}`);
     } else {
-      push(`${pathname}?page=${page}&${createQueryString('name', nameState!)}`);
+      push(`${pathname}?${createQueryString(paramName, inputTitle!)}`);
     }
-    if (name === '') {
+    if (paramName === '') {
       push(`${pathname}`);
     }
-    setNameState(name);
-    await data(page, name!);
-    setNameState('');
+    setInputTitle(title);
+    await load(business.payload?.businessId, inputPage, title!);
+    setInputTitle('');
+  }
+
+  async function changePage(pageNumber: number) {
+    push(`${pathname}?${createQueryString('page', String(pageNumber))}`);
+    setInputPage(page);
+    await load(business.payload?.businessId, page);
+  }
+
+  async function showAll() {
+    push(pathname);
+    await load(business.payload?.businessId, inputPage);
   }
 
   return {
     search,
-    createQueryString
+    changePage,
+    showAll,
+    inputTitle,
+    inputPage,
+    page,
+    setInputPage,
+    setInputTitle
   }
 
 }
