@@ -1,7 +1,7 @@
 
 export type Stock = {
-  productId: string;
-  businessId: string;
+  product_id: string;
+  business_id: string;
   title: string;
   price: string;
   quantity: string;

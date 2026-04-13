@@ -3,7 +3,6 @@ import './form-stock.css';
 import { Stock } from '@/models/Stock';
 
 interface FormStockProps {
-  showForm: boolean;
   deactive(): void;
   stock: Partial<Stock>;
   changeStock(stock: Partial<Stock>): void;
@@ -12,7 +11,6 @@ interface FormStockProps {
 }
 
 function FormStock({
-  showForm,
   deactive,
   stock,
   changeStock,
@@ -22,7 +20,6 @@ function FormStock({
   return (
     <section className={`
       form-stock-container
-      ${showForm && 'active'}
     `}>
       <div className='form-stock'>
         <form className='forms'>
@@ -31,7 +28,7 @@ function FormStock({
               <label htmlFor='title'>Titulo</label>
               <input
                 onChange={(e) => changeStock({ ...stock, title: e.target.value })}
-                value={stock.title || ''}
+                value={stock.title ?? ''}
                 type='text'
                 id='title'
                 placeholder='Titulo'
@@ -41,7 +38,7 @@ function FormStock({
               <label htmlFor='price'>Preço</label>
               <input
                 onChange={(e) => changeStock({ ...stock, price: e.target.value })}
-                value={stock.price || ''}
+                value={stock.price ?? ''}
                 type='number'
                 id='price'
                 placeholder='Preco'
@@ -51,7 +48,7 @@ function FormStock({
               <label htmlFor='quantity'>Quantidade</label>
               <input
                 onChange={(e) => changeStock({ ...stock, quantity: e.target.value })}
-                value={stock.quantity || ''}
+                value={stock.quantity ?? ''}
                 type='number'
                 id='quantity'
                 required={true}

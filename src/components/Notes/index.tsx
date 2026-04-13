@@ -1,30 +1,26 @@
+'use client';
 
 import useNote from '@/data/hooks/useNote';
 import { Message } from '../Message';
-import { FormEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import Note from '@/models/Note';
-import { IconChevronCompactLeft, IconChevronCompactRight, IconSearch, IconTrash } from '@tabler/icons-react';
-import { PaginationModel } from '@/models/PaginationModel';
+import { IconSearch, IconTrash } from '@tabler/icons-react';
 import { Pagination } from '../Pagination';
-import { baseURL } from '@/utils/api';
 import './notes.css';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Auth } from '@/data/contexts/Auth';
 import { useSearch } from '@/data/hooks/useSearch';
 
 function Notes() {
-
-  const [nameState, setNameState] = useState<string | null>('');
-  const [message, setMessage] = useState<string>('');
-  const [status, setStatus] = useState<boolean>(false);
-  const [activeMessage, setActiveMessage] = useState<boolean>(false);
 
   const { business } = useContext(Auth);
 
   const {
     notes,
     pagination,
-    loadNotes
+    loadNotes,
+    message,
+    status,
+    activeMessage
   } = useNote();
 
   const {
@@ -34,7 +30,7 @@ function Notes() {
     inputTitle,
     page,
     setInputTitle
-  } = useSearch(loadNotes, 'title');
+  } = useSearch({ loadCb: loadNotes, paramName: 'name' });
 
   useEffect(() => {
     loadNotes(business.payload?.businessId, page, inputTitle!);
@@ -79,7 +75,7 @@ function Notes() {
               </tr>
             </thead>
             <tbody>
-              {Object.values(notes).map((note: Note) => (
+              {notes.map((note: Note) => (
                 <tr key={note.noteId}>
                   <td>
                     <span className='cell-header'>Nome</span>

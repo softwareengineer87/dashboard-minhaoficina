@@ -1,23 +1,34 @@
 
 import { Message } from '../Message';
-import { useContext, useEffect } from 'react';
 import { IconEdit, IconSearch, IconTrash } from '@tabler/icons-react';
 import { Pagination } from '../Pagination';
 import './notes.css';
-import { Auth } from '@/data/contexts/Auth';
 import { Stock } from '@/models/Stock';
 import { useStock } from '@/data/hooks/useStock';
 import { formatPrice } from '@/utils/FormatPrice';
 import { useSearch } from '@/data/hooks/useSearch';
+import { PaginationModel } from '@/models/PaginationModel';
+import { useContext, useEffect } from 'react';
+import { Auth } from '@/data/contexts/Auth';
 
-function Stocks() {
+interface StocksPros {
+  stocks: Stock[];
+  pagination: PaginationModel;
+  selectedStock(stock: Stock): void;
+  deleteStock(productId: string): void;
+}
+
+function Stocks({
+  selectedStock,
+  deleteStock
+}: StocksPros) {
 
   const { business } = useContext(Auth);
 
   const {
-    loadStocks,
     stocks,
     pagination,
+    loadStocks,
     message,
     status,
     activeMessage
@@ -28,14 +39,12 @@ function Stocks() {
     changePage,
     showAll,
     inputTitle,
-    page,
     setInputTitle
-  } = useSearch(loadStocks, 'title');
-
+  } = useSearch({ loadCb: loadStocks, paramName: 'title' });
 
   useEffect(() => {
-    loadStocks(business.payload?.businessId, page, inputTitle!);
-  }, [stocks, inputTitle]);
+    loadStocks(business.payload?.businessId, 1, inputTitle!);
+  }, [inputTitle]);
 
   return (
     <section className='notes-container'>
@@ -74,7 +83,7 @@ function Stocks() {
             </thead>
             <tbody>
               {stocks.map((stock: Stock) => (
-                <tr key={stock.productId}>
+                <tr key={stock.product_id}>
                   <td>
                     <span className='cell-header'>Titulo</span>
                     {stock.title}
@@ -89,10 +98,10 @@ function Stocks() {
                   </td>
                   <td className='actions'>
                     <span className='cell-header'>Ações</span>
-                    <button onClick={() => { }}>
+                    <button onClick={() => selectedStock(stock)}>
                       <IconEdit className='edit' stroke={1} />
                     </button>
-                    <button onClick={() => { }}>
+                    <button onClick={() => deleteStock(stock.product_id)}>
                       <IconTrash className='del' stroke={1} />
                     </button>
                   </td>

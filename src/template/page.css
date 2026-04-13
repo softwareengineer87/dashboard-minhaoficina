@@ -1,0 +1,10 @@
+.page-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.page-container .content {
+  max-width: 130rem;
+  width: 100%;
+  margin: 0 2% 0 0;
+}

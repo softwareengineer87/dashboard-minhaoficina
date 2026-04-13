@@ -2,22 +2,19 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useCallback, useContext, useState } from "react";
 import { Auth } from "../contexts/Auth";
 
-interface UseSearchProps {
-  load(
+interface useSearchProps {
+  loadCb(
     businessId: string,
     page: number,
     title?: string
   ): Promise<void>;
-  paramName: string;
+  paramName: string
 }
 
-function useSearch({
-  load,
-  paramName
-}: UseSearchProps) {
+function useSearch({ loadCb, paramName }: useSearchProps) {
 
   const [inputTitle, setInputTitle] = useState<string | null>('');
-  const [inputPage, setInputPage] = useState<number>(0);
+  const [inputPage, setInputPage] = useState<number>(1);
 
   const { business } = useContext(Auth);
 
@@ -42,23 +39,23 @@ function useSearch({
     } else {
       push(`${pathname}?${createQueryString(paramName, inputTitle!)}`);
     }
-    if (paramName === '') {
+    if (title === '') {
       push(`${pathname}`);
     }
     setInputTitle(title);
-    await load(business.payload?.businessId, inputPage, title!);
+    await loadCb(business.payload?.businessId, inputPage, inputTitle!);
     setInputTitle('');
   }
 
   async function changePage(pageNumber: number) {
     push(`${pathname}?${createQueryString('page', String(pageNumber))}`);
     setInputPage(page);
-    await load(business.payload?.businessId, page);
+    await loadCb(business.payload?.businessId, page);
   }
 
   async function showAll() {
     push(pathname);
-    await load(business.payload?.businessId, inputPage);
+    await loadCb(business.payload?.businessId, inputPage);
   }
 
   return {

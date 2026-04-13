@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--color-white);
-  padding: 1rem;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -71,7 +70,8 @@
   align-items: center;
   gap: 1rem;
   color: var(--color-gray);
-  transition: all 1s ease-in-out;
+  padding: .5rem;
+  transition: all .5s ease-in-out;
 }
 
 .link span {
@@ -79,8 +79,7 @@
 }
 
 .sidebar nav.menu ul li .link:hover {
-  border-bottom: .1rem solid var(--color-gray);
-  padding-bottom: .5rem;
+  background-color: var(--color-graylight);
 }
 
 .sidebar-container .btn-logout {
