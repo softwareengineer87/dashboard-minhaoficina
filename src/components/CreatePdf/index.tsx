@@ -82,7 +82,7 @@ function CreatePdf({
             <h4>{business.payload?.name}</h4>
             <p>{business.payload?.email}</p>
           </div>
-          {logoData.url ? (
+          {logoData && logoData.url ? (
             <Image
               src={logoData.url}
               width={100}

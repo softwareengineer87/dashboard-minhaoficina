@@ -1,5 +1,5 @@
+import { Page } from '@/components/template/Page';
 import './layout.css';
-import { Page } from "@/template/Page";
 
 export default function DashboardLayout({
   children,

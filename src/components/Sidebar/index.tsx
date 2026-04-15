@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCalendar, IconChevronCompactLeft, IconChevronCompactRight, IconHome, IconList, IconLogout2, IconNote, IconNotes, IconTool, IconUser } from '@tabler/icons-react';
+import { IconCalendar, IconChevronCompactLeft, IconChevronCompactRight, IconChevronDown, IconChevronUp, IconHome, IconList, IconLogout2, IconNote, IconNotes, IconTool, IconUser } from '@tabler/icons-react';
 import './sidebar.css';
 import { useContext, useEffect, useState } from 'react';
 import { Message } from '../Message';
@@ -9,6 +9,7 @@ import { Auth } from '@/data/contexts/Auth';
 import Image from 'next/image';
 import { useBusiness } from '@/data/hooks/useBusiness';
 import { Photo } from '@/types/Photo';
+import { MenuItem } from '../template/MenuItem';
 
 function Sidebar() {
 
@@ -55,11 +56,51 @@ function Sidebar() {
         </header>
         <nav className='menu'>
           <ul>
-            <li><Link className='link' href='/'><IconHome stroke={1} /><span className='close'>Home</span></Link></li>
-            <li><Link className='link' href='/create-note'><IconNote stroke={1} /><span className='close'>Criar nota do cliente</span></Link></li>
-            <li><Link className='link' href='/notes'><IconNotes stroke={1} /><span className='close'>Notas</span></Link></li>
-            <li><Link className='link' href='/stock'><IconList stroke={1} /><span className='close'>Estoque de Produtos</span></Link></li>
-            <li><Link className='link' href='/business-profile'><IconTool stroke={1} /><span className='close'>Sua conta</span></Link></li>
+            <div className='slide-menu'>
+              <p className='close'>
+                inicio
+              </p>
+              <MenuItem
+                label='Home'
+                icon={<IconHome />}
+                url='/'
+              />
+            </div>
+            <div className='slide-menu'>
+              <p className='close'>
+                notas
+              </p>
+              <MenuItem
+                label='Criar Nota'
+                icon={<IconNote />}
+                url='/create-note'
+              />
+              <MenuItem
+                label='Notas dos clientes'
+                icon={<IconNotes />}
+                url='/notes'
+              />
+            </div>
+            <div className='slide-menu'>
+              <p className='close'>
+                estoque
+              </p>
+              <MenuItem
+                label='Estoque'
+                icon={<IconList />}
+                url='/stock'
+              />
+            </div>
+            <div className='slide-menu'>
+              <p className='close'>
+                configurações
+              </p>
+              <MenuItem
+                label='Sua conta'
+                icon={<IconTool />}
+                url='/business-profile'
+              />
+            </div>
           </ul>
         </nav>
       </div>

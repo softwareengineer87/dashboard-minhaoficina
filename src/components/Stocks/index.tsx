@@ -39,12 +39,15 @@ function Stocks({
     changePage,
     showAll,
     inputTitle,
+    page,
+    inputPage,
+    setInputPage,
     setInputTitle
   } = useSearch({ loadCb: loadStocks, paramName: 'title' });
 
   useEffect(() => {
-    loadStocks(business.payload?.businessId, 1, inputTitle!);
-  }, [inputTitle]);
+    loadStocks(business.payload?.businessId, page, inputTitle!);
+  }, [inputTitle, inputPage, setInputPage, pagination]);
 
   return (
     <section className='notes-container'>

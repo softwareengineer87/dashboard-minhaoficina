@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import type note from '../../models/Note';
 import './form-note.css';
 import { Message } from '../Message';
-import { useRouter } from 'next/navigation';
 import { IconX } from '@tabler/icons-react';
 import { PartPdf } from '@/models/Part';
 import { formatPrice } from '@/utils/FormatPrice';
 import Note from '../../models/Note';
 import useNote from '@/data/hooks/useNote';
+import { useStock } from '@/data/hooks/useStock';
+import { Stock } from '@/models/Stock';
+import { Auth } from '@/data/contexts/Auth';
+import { Pagination } from '../Pagination';
+import { useSearch } from '@/data/hooks/useSearch';
 
 interface FormNoteProps {
   changeNote(note: note): void;
@@ -26,24 +30,31 @@ function FormNote({
   changePart,
 }: FormNoteProps) {
 
-  const [file, setFile] = useState(null);
   const [partName, setPartName] = useState<string>('');
   const [partPrice, setPartPrice] = useState<string>('');
   const [parts, setParts] = useState<PartPdf[]>([]);
-  const { push } = useRouter();
 
+  const { business } = useContext(Auth);
 
   const {
     saveNote,
-    savePhoto,
-    savePart,
-    loadParts,
-    partsList,
-    dataPhoto,
     message,
     status,
     activeMessage
   } = useNote();
+
+  const {
+    loadStocks,
+    stocks,
+    pagination
+  } = useStock();
+
+  const {
+    changePage,
+    page,
+    inputPage,
+    setInputPage
+  } = useSearch({ loadCb: loadStocks, paramName: 'title' });
 
   async function handleForm() {
     await saveNote(note);
@@ -54,7 +65,6 @@ function FormNote({
   }
 
   async function handlePart() {
-    //await savePart(partName, Number(partPrice), idnote);
     setParts([...parts, {
       partId: generateId(),
       name: partName,
@@ -83,7 +93,8 @@ function FormNote({
   useEffect(() => {
     changeTotal(totalParts());
     changePart(parts);
-  }, [parts]);
+    loadStocks(business.payload?.businessId, page);
+  }, [parts, inputPage, setInputPage, pagination]);
 
   return (
     <section className={`
@@ -198,6 +209,12 @@ function FormNote({
         </div>
 
         <form className='forms'>
+          <select>
+            <option disabled selected value=''>Selecione a peça</option>
+            {stocks.map((stock: Stock) => (
+              <option key={stock.product_id} value={stock.product_id}>{stock.title}</option>
+            ))}
+          </select>
           <div className='box-inputs'>
             <div className='input-form'>
               <label htmlFor='name'>Nome da peça</label>
@@ -221,6 +238,10 @@ function FormNote({
             </div>
           </div>
         </form>
+        <Pagination
+          pagination={pagination}
+          changePage={changePage}
+        />
         <button onClick={handlePart} className='btn-photo'>Salvar peça</button>
 
       </div>

@@ -10,6 +10,7 @@ interface PaginationProps {
 }
 
 function Pagination({ pagination, changePage }: PaginationProps) {
+
   return (
     <section className='pagination'>
       {pagination.actualPage >= 2 && (

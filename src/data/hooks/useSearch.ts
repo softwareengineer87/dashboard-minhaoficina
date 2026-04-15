@@ -50,7 +50,8 @@ function useSearch({ loadCb, paramName }: useSearchProps) {
   async function changePage(pageNumber: number) {
     push(`${pathname}?${createQueryString('page', String(pageNumber))}`);
     setInputPage(page);
-    await loadCb(business.payload?.businessId, page);
+    await loadCb(business.payload?.businessId, inputPage);
+    console.log('alterou a funcao change page', inputPage);
   }
 
   async function showAll() {
