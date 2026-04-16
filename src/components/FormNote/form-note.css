@@ -24,6 +24,11 @@
   gap: 1rem;
 }
 
+.form-note .forms .stock-list {
+  padding: 1rem;
+  color: var(--color-black);
+}
+
 .form-note .forms .input-form {
   display: flex;
   flex-direction: column;

@@ -209,40 +209,43 @@ function FormNote({
         </div>
 
         <form className='forms'>
-          <select>
+          <select className='stock-list'>
             <option disabled selected value=''>Selecione a peça</option>
-            {stocks.map((stock: Stock) => (
-              <option key={stock.product_id} value={stock.product_id}>{stock.title}</option>
-            ))}
+            {stocks.length === 0 ? (
+              <option disabled>Nenhuma peça cadastrada</option>
+            )
+              : stocks.map((stock: Stock) => (
+                <option key={stock.product_id} value={stock.product_id}>{stock.title}</option>
+              ))}
           </select>
-          <div className='box-inputs'>
-            <div className='input-form'>
-              <label htmlFor='name'>Nome da peça</label>
-              <input
-                onChange={(e) => setPartName(e.target.value)}
-                value={partName}
-                type='text'
-                id='name'
-                placeholder='Nome da peça'
-              />
-            </div>
-            <div className='input-form'>
-              <label htmlFor='price'>Preço</label>
-              <input
-                onChange={(e) => setPartPrice(e.target.value)}
-                value={partPrice}
-                type='number'
-                id='price'
-                placeholder='Preço'
-              />
-            </div>
-          </div>
+          {/* <div className='box-inputs'> */}
+          {/*   <div className='input-form'> */}
+          {/*     <label htmlFor='name'>Nome da peça</label> */}
+          {/*     <input */}
+          {/*       onChange={(e) => setPartName(e.target.value)} */}
+          {/*       value={partName} */}
+          {/*       type='text' */}
+          {/*       id='name' */}
+          {/*       placeholder='Nome da peça' */}
+          {/*     /> */}
+          {/*   </div> */}
+          {/*   <div className='input-form'> */}
+          {/*     <label htmlFor='price'>Preço</label> */}
+          {/*     <input */}
+          {/*       onChange={(e) => setPartPrice(e.target.value)} */}
+          {/*       value={partPrice} */}
+          {/*       type='number' */}
+          {/*       id='price' */}
+          {/*       placeholder='Preço' */}
+          {/*     /> */}
+          {/*   </div> */}
+          {/* </div> */}
         </form>
         <Pagination
           pagination={pagination}
           changePage={changePage}
         />
-        <button onClick={handlePart} className='btn-photo'>Salvar peça</button>
+        <button onClick={handlePart} className='btn-photo'>Adicionar peça</button>
 
       </div>
       <div className='parts'>
