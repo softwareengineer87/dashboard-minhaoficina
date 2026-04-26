@@ -3,11 +3,18 @@ import { StatisticCard } from "../StatisticCard";
 import {
   IconCalendar,
   IconCurrencyDollar,
-  IconTool,
-  IconUsers
+  IconList,
+  IconTool
 } from '@tabler/icons-react';
+import { useStock } from "@/data/hooks/useStock";
 
 function Statistics() {
+
+  const {
+    allStocks,
+    totalValueProducts
+  } = useStock();
+
   return (
     <section className='statistics'>
       <StatisticCard
@@ -21,13 +28,13 @@ function Statistics() {
         icon={<IconCalendar />}
       />
       <StatisticCard
-        total={0}
-        description='Clientes cadastrados'
-        icon={<IconUsers />}
+        total={allStocks.length}
+        description='Total de produtos cadastrados'
+        icon={<IconList />}
       />
       <StatisticCard
-        total={Format.formatPrice(0)}
-        description='Valor total em agendamentos'
+        total={Format.formatPrice(totalValueProducts)}
+        description='Valor total em produtos'
         icon={<IconCurrencyDollar />}
       />
     </section>

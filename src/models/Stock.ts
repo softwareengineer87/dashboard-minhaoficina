@@ -5,6 +5,7 @@ export type Stock = {
   title: string;
   price: string;
   quantity: string;
-  createdAt: string;
+  minimum_stock: string;
+  createdAt?: string;
 }
 

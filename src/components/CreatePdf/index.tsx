@@ -7,16 +7,17 @@ import './pdf.css';
 import { Auth } from '@/data/contexts/Auth';
 import Image from 'next/image';
 import { IconUpload } from '@tabler/icons-react';
+import { ProductItems } from '@/models/ProductItems';
 
 interface CreatePdfProps {
   data: Launch
-  partsList: PartPdf[]
+  productList: ProductItems[]
   totalPrice: number
 }
 
 function CreatePdf({
   data,
-  partsList,
+  productList,
   totalPrice,
 }: CreatePdfProps) {
 
@@ -133,10 +134,10 @@ function CreatePdf({
         <div className='parts'>
           <h3>peças e serviços</h3>
           <ul>
-            {partsList.map((part) => (
-              <li className='part' key={part.partId}>
-                <p>{part.name}</p>
-                <span>{formatPrice(part.price)}</span>
+            {productList.map((product: ProductItems) => (
+              <li className='part' key={product.productId}>
+                <p>{product.title} x{product.quantity}</p>
+                <span>{formatPrice(product.price)}</span>
               </li>
             ))}
             <h5>Valor total: <strong className='text-red-700'>{formatPrice(totalPrice)}</strong></h5>

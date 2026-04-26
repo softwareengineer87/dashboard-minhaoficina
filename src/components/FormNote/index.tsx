@@ -3,7 +3,6 @@ import type note from '../../models/Note';
 import './form-note.css';
 import { Message } from '../Message';
 import { IconX } from '@tabler/icons-react';
-import { PartPdf } from '@/models/Part';
 import { formatPrice } from '@/utils/FormatPrice';
 import Note from '../../models/Note';
 import useNote from '@/data/hooks/useNote';
@@ -12,14 +11,15 @@ import { Stock } from '@/models/Stock';
 import { Auth } from '@/data/contexts/Auth';
 import { Pagination } from '../Pagination';
 import { useSearch } from '@/data/hooks/useSearch';
+import { ProductItems } from '@/models/ProductItems';
 
 interface FormNoteProps {
   changeNote(note: note): void;
   note: Note;
   totalPrice: number;
   changeTotal(total: number): void;
-  partList: PartPdf[];
-  changePart(parts: PartPdf[]): void;
+  productList: ProductItems[];
+  changePart(products: ProductItems[]): void;
 }
 
 function FormNote({
@@ -30,9 +30,9 @@ function FormNote({
   changePart,
 }: FormNoteProps) {
 
-  const [partName, setPartName] = useState<string>('');
-  const [partPrice, setPartPrice] = useState<string>('');
-  const [parts, setParts] = useState<PartPdf[]>([]);
+  const [quantity, setQuantity] = useState<string>('');
+  const [productId, setProductId] = useState<string>('');
+  const [productItems, setProductItems] = useState<ProductItems[]>([]);
 
   const { business } = useContext(Auth);
 
@@ -40,11 +40,15 @@ function FormNote({
     saveNote,
     message,
     status,
-    activeMessage
+    activeMessage,
+    setMessage,
+    handleActiveMessage,
+    setStatus
   } = useNote();
 
   const {
     loadStocks,
+    updateStock,
     stocks,
     pagination
   } = useStock();
@@ -53,7 +57,8 @@ function FormNote({
     changePage,
     page,
     inputPage,
-    setInputPage
+    setInputPage,
+    inputTitle
   } = useSearch({ loadCb: loadStocks, paramName: 'title' });
 
   async function handleForm() {
@@ -61,40 +66,74 @@ function FormNote({
   }
 
   function generateId() {
-    return Math.floor(Math.random() * 1000) + 1;
+    return Math.random().toString(36).substring(2, 20);
   }
 
   async function handlePart() {
-    setParts([...parts, {
-      partId: generateId(),
-      name: partName,
-      price: Number(partPrice)
+    handleActiveMessage();
+    const stock = stocks.find((s: Stock) => s.product_id === productId);
+    if (productId === '') {
+      setStatus(false);
+      setMessage('Selecione um produto.');
+      return;
+    }
+    if (quantity === '') {
+      setStatus(false);
+      setMessage('A quantidade precisa ser preenchida e ser maior que zero.');
+      return;
+    }
+    setProductItems([...productItems, {
+      productId: stock!.product_id,
+      title: stock!.title,
+      price: Number(stock!.price),
+      quantity: Number(quantity),
+      actualQuantity: Number(stock!.quantity)
     }]);
-    setPartName('');
-    setPartPrice('');
+
+    await updateStock({
+      ...stock,
+      quantity: String(Number(stock?.quantity) - Number(quantity))
+    });
+
+    setStatus(true);
+    setMessage(`Produto ${stock!.title} adicionado.`);
+    setProductId('');
   }
 
-  function removePart(index: number) {
-    const partIndex = parts.findIndex((part, indexPart) => index === indexPart);
+  async function removePart(productId: string, index: number) {
+    handleActiveMessage();
+    const productIndex = productItems.findIndex((_, indexPart) => index === indexPart);
+    const stock = stocks.find((s: Stock) => s.product_id === productId);
 
-    const newParts = parts.filter((partFilter, i) => i !== partIndex);
-    setParts(newParts);
+    await updateStock({
+      ...stock,
+      quantity: String(Number(stock?.quantity) + Number(quantity))
+    });
+
+    const newParts = productItems.filter((_, i) => i !== productIndex);
+    setProductItems(newParts);
     changeTotal(totalParts());
+    setStatus(false);
+    setMessage(`Produto removido.`);
   }
 
   function totalParts() {
     let total: number = 0;
-    for (let i = 0; i < parts.length; i++) {
-      total += parts[i].price;
+    for (let i = 0; i < productItems.length; i++) {
+      total += productItems[i].price * productItems[i].quantity;
     }
     return total;
   }
 
   useEffect(() => {
     changeTotal(totalParts());
-    changePart(parts);
+    changePart(productItems);
     loadStocks(business.payload?.businessId, page);
-  }, [parts, inputPage, setInputPage, pagination]);
+  }, [productItems,
+    inputPage,
+    setInputPage,
+    pagination,
+    inputTitle]);
 
   return (
     <section className={`
@@ -209,38 +248,53 @@ function FormNote({
         </div>
 
         <form className='forms'>
-          <select className='stock-list'>
-            <option disabled selected value=''>Selecione a peça</option>
-            {stocks.length === 0 ? (
-              <option disabled>Nenhuma peça cadastrada</option>
-            )
-              : stocks.map((stock: Stock) => (
-                <option key={stock.product_id} value={stock.product_id}>{stock.title}</option>
-              ))}
-          </select>
-          {/* <div className='box-inputs'> */}
-          {/*   <div className='input-form'> */}
-          {/*     <label htmlFor='name'>Nome da peça</label> */}
-          {/*     <input */}
-          {/*       onChange={(e) => setPartName(e.target.value)} */}
-          {/*       value={partName} */}
-          {/*       type='text' */}
-          {/*       id='name' */}
-          {/*       placeholder='Nome da peça' */}
-          {/*     /> */}
-          {/*   </div> */}
-          {/*   <div className='input-form'> */}
-          {/*     <label htmlFor='price'>Preço</label> */}
-          {/*     <input */}
-          {/*       onChange={(e) => setPartPrice(e.target.value)} */}
-          {/*       value={partPrice} */}
-          {/*       type='number' */}
-          {/*       id='price' */}
-          {/*       placeholder='Preço' */}
-          {/*     /> */}
-          {/*   </div> */}
-          {/* </div> */}
+          <div className='box-inputs'>
+            <div className='input-form'>
+              <label htmlFor='quantity'>Selecione a peça</label>
+              <select value={productId} onChange={(e) => setProductId(e.target.value)} className='stock-list'>
+                <option disabled selected value=''>Selecione a peça</option>
+                {stocks.length === 0 ? (
+                  <option disabled>Nenhuma peça cadastrada</option>
+                )
+                  : stocks.map((stock: Stock) => (
+                    <option key={stock.product_id} value={stock.product_id}>{stock.title}</option>
+                  ))}
+              </select>
+            </div>
+            <div className='input-form'>
+              <label htmlFor='quantity'>Quantidade</label>
+              <input
+                onChange={(e) => setQuantity(e.target.value)}
+                value={quantity}
+                type='number'
+                id='quantity'
+                placeholder='Quantidade de peças'
+              />
+            </div>
+          </div>
         </form>
+        {/* <div className='box-inputs'> */}
+        {/*   <div className='input-form'> */}
+        {/*     <label htmlFor='name'>Nome da peça</label> */}
+        {/*     <input */}
+        {/*       onChange={(e) => setPartName(e.target.value)} */}
+        {/*       value={partName} */}
+        {/*       type='text' */}
+        {/*       id='name' */}
+        {/*       placeholder='Nome da peça' */}
+        {/*     /> */}
+        {/*   </div> */}
+        {/*   <div className='input-form'> */}
+        {/*     <label htmlFor='price'>Preço</label> */}
+        {/*     <input */}
+        {/*       onChange={(e) => setPartPrice(e.target.value)} */}
+        {/*       value={partPrice} */}
+        {/*       type='number' */}
+        {/*       id='price' */}
+        {/*       placeholder='Preço' */}
+        {/*     /> */}
+        {/*   </div> */}
+        {/* </div> */}
         <Pagination
           pagination={pagination}
           changePage={changePage}
@@ -249,12 +303,12 @@ function FormNote({
 
       </div>
       <div className='parts'>
-        {parts.map((part: PartPdf, index: number) => (
-          <div className='part' key={part.partId}>
-            <h4>{part.name}</h4>
-            <p>{formatPrice(part.price)}</p>
+        {productItems.map((product: ProductItems, index: number) => (
+          <div className='part' key={product.productId}>
+            <h4>{product.title} x{product.quantity}</h4>
+            <p>{formatPrice(product.price)}</p>
             <span
-              onClick={() => removePart(index)}
+              onClick={() => removePart(product.productId, index)}
               className='icon-x'>
               <IconX size={12} />
             </span>

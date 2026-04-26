@@ -81,6 +81,7 @@ function Stocks({
                 <th>Titulo</th>
                 <th>Preço</th>
                 <th>Quantidade</th>
+                <th>Estoque minimo</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -98,6 +99,10 @@ function Stocks({
                   <td>
                     <span className='cell-header'>Quantidade</span>
                     {stock.quantity}
+                  </td>
+                  <td>
+                    <span className='cell-header'>Estoque minimo</span>
+                    {Number(stock.minimum_stock)}
                   </td>
                   <td className='actions'>
                     <span className='cell-header'>Ações</span>

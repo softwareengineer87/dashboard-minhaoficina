@@ -1,13 +1,15 @@
 import { PaginationModel } from "@/models/PaginationModel";
 import { Stock } from "@/models/Stock";
 import { baseURL } from "@/utils/api";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Auth } from "../contexts/Auth";
 
 function useStock() {
 
   const [stocks, setStocks] = useState<Stock[]>([]);
+  const [allStocks, setAllStocks] = useState<Stock[]>([]);
   const [pagination, setPagination] = useState<PaginationModel>({} as PaginationModel);
+  const [totalValueProducts, setTotalValueProducts] = useState<number>(0);
 
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
@@ -33,7 +35,8 @@ function useStock() {
         body: JSON.stringify({
           title: stock.title,
           price: stock.price,
-          quantity: stock.quantity
+          quantity: stock.quantity,
+          minimum_stock: Number(stock.minimum_stock)
         })
       });
       handleActiveMessage();
@@ -52,6 +55,7 @@ function useStock() {
 
   async function updateStock(stock: Partial<Stock>) {
     try {
+      console.log(stock);
       const response = await fetch(`${baseURL}/stock/${stock.product_id}/${stock.business_id}`, {
         method: 'PUT',
         headers: {
@@ -60,7 +64,8 @@ function useStock() {
         body: JSON.stringify({
           title: stock.title,
           price: stock.price,
-          quantity: stock.quantity
+          quantity: stock.quantity,
+          minimum_stock: Number(stock.minimum_stock)
         })
       });
       handleActiveMessage();
@@ -119,15 +124,31 @@ function useStock() {
       const data = await response.json();
       setStocks(data.stocks);
       setPagination(data.pagination);
+      setAllStocks(data.allStocks);
     } catch (error: any) {
       console.log(`Erro ao carregar notas: ${error.message}`)
     }
   }
 
+  function getTotalValueProducts() {
+    let total = 0;
+    for (const product of allStocks) {
+      total += Number(product.price);
+    }
+    setTotalValueProducts(total);
+  }
+
+  useEffect(() => {
+    loadStocks(business.payload?.businessId, 1);
+    getTotalValueProducts();
+  }, [stocks]);
+
   return {
     loadStocks,
     stocks,
     pagination,
+    allStocks,
+    totalValueProducts,
     saveStock,
     updateStock,
     stockDelete,

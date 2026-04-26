@@ -16,6 +16,7 @@ function useNote() {
   const [dataPhoto, setDataPhoto] = useState({} as any);
   const [idNote, setIdNote] = useState<string>('');
   const [pagination, setPagination] = useState<PaginationModel>({} as PaginationModel);
+  const [quantity, setQuantity] = useState<string>('');
 
   const { business } = useContext(Auth);
 
@@ -169,9 +170,14 @@ function useNote() {
     idNote,
     loadPhoto,
     loadNotes,
+    quantity,
+    setQuantity,
     message,
     status,
-    activeMessage
+    activeMessage,
+    setMessage,
+    handleActiveMessage,
+    setStatus
   }
 }
 
