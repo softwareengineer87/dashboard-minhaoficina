@@ -10,6 +10,7 @@ function useStock() {
   const [allStocks, setAllStocks] = useState<Stock[]>([]);
   const [pagination, setPagination] = useState<PaginationModel>({} as PaginationModel);
   const [totalValueProducts, setTotalValueProducts] = useState<number>(0);
+  const [productQuantity, setPoductQuantity] = useState<number>(0);
 
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
@@ -132,10 +133,13 @@ function useStock() {
 
   function getTotalValueProducts() {
     let total = 0;
+    let quantity = 0;
     for (const product of allStocks) {
-      total += Number(product.price);
+      total += Number(product.price) * Number(product.quantity);
+      quantity += Number(product.quantity);
     }
     setTotalValueProducts(total);
+    setPoductQuantity(quantity);
   }
 
   useEffect(() => {
@@ -149,6 +153,7 @@ function useStock() {
     pagination,
     allStocks,
     totalValueProducts,
+    productQuantity,
     saveStock,
     updateStock,
     stockDelete,

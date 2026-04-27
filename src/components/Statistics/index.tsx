@@ -12,7 +12,8 @@ function Statistics() {
 
   const {
     allStocks,
-    totalValueProducts
+    totalValueProducts,
+    productQuantity
   } = useStock();
 
   return (
@@ -28,7 +29,7 @@ function Statistics() {
         icon={<IconCalendar />}
       />
       <StatisticCard
-        total={allStocks.length}
+        total={productQuantity}
         description='Total de produtos cadastrados'
         icon={<IconList />}
       />
