@@ -1,6 +1,5 @@
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import Link from "next/link";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import './menu-item.css';
 
 interface MenuItemProps {
@@ -15,17 +14,11 @@ function MenuItem({
   url,
 }: MenuItemProps) {
 
-  const [showMenu, setShowMenu] = useState<boolean>(true);
-
   return (
     <nav className='menuitem-container'>
       <section className='menu-item'>
         <div className='dropdown-menu'>
-          <p className='close' onClick={() => setShowMenu((state) => !state)}>
-            {showMenu ? <IconChevronUp /> : <IconChevronDown />}
-          </p>
-          <li
-            className={`${showMenu ? 'active' : 'deactive'}`}>
+          <li>
             <Link
               className='link'
               href={url}

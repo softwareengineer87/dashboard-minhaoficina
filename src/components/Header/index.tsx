@@ -5,6 +5,7 @@ import { IconDashboard, IconUser } from "@tabler/icons-react";
 import { useContext, useEffect } from "react";
 import './header.css';
 import Image from "next/image";
+import { NotificationCenter } from "../NotificationCenter";
 
 function Header() {
 
@@ -26,29 +27,32 @@ function Header() {
           <p>Dashboard</p>
         </div>
         <div className="header-right">
-          <div className='infos'>
-            <p>{business.payload?.name}</p>
-            <span>{business.payload?.email}</span>
+          <NotificationCenter />
+          <div className='header-box'>
+            <div className='infos'>
+              <p>{business.payload?.name}</p>
+              <span>{business.payload?.email}</span>
+            </div>
+            <span className="icon-user">
+              {logoData && logoData.url ? (
+                <Image
+                  src={logoData.url}
+                  width={300}
+                  height={150}
+                  alt='Logotipo da empresa'
+                  className='image-profile'
+                />
+              ) : (
+                <Image
+                  src='./avatar.svg'
+                  width={300}
+                  height={150}
+                  alt='Logotipo da empresa'
+                  className='image-profile'
+                />
+              )}
+            </span>
           </div>
-          <span className="icon-user">
-            {logoData && logoData.url ? (
-              <Image
-                src={logoData.url}
-                width={300}
-                height={150}
-                alt='Logotipo da empresa'
-                className='image-profile'
-              />
-            ) : (
-              <Image
-                src='./avatar.svg'
-                width={300}
-                height={150}
-                alt='Logotipo da empresa'
-                className='image-profile'
-              />
-            )}
-          </span>
         </div>
       </div>
     </header>

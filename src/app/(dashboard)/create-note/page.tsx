@@ -1,18 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './create.css';
 import CreatePdf from '@/components/CreatePdf';
 import { PartPdf } from '@/models/Part';
 import { FormNote } from '@/components/FormNote';
 import Note from '@/models/Note';
 import { ProductItems } from '@/models/ProductItems';
+import { useNotification } from '@/data/hooks/useNotificaction';
 
 function CreateLaunch() {
 
   const [note, setNote] = useState<Note>({} as Note);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [productList, setProductList] = useState<ProductItems[]>([]);
+
+  const { addNotification } = useNotification();
+  useEffect(() => {
+    addNotification('Oleo com baixo estoque');
+  }, []);
 
   return (
     <section className='launch-container'>

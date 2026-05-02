@@ -1,0 +1,21 @@
+.popupnotification-container {
+  position: absolute;
+  top: 4rem;
+  width: 30rem;
+  background-color: var(--color-white);
+  box-shadow: 2px 3px 5px 1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 1rem;
+  z-index: 99;
+}
+
+.popupnotification-container .popup h4 {
+  border-bottom: .1rem solid var(--color-graylight);
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 48rem) {
+  .popupnotification-container {
+    right: -7rem;
+  }
+}

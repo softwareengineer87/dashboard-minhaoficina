@@ -7,6 +7,7 @@ import { Message } from '@/components/Message';
 import { Search } from '@/components/Search';
 import { Notes } from '@/components/Notes';
 import { Statistics } from '@/components/Statistics';
+import { NotificationCenter } from '@/components/NotificationCenter';
 
 export default function Home() {
 

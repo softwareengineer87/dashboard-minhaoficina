@@ -56,7 +56,6 @@ function useStock() {
 
   async function updateStock(stock: Partial<Stock>) {
     try {
-      console.log(stock);
       const response = await fetch(`${baseURL}/stock/${stock.product_id}/${stock.business_id}`, {
         method: 'PUT',
         headers: {

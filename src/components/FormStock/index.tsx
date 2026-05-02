@@ -1,14 +1,12 @@
 import { IconArrowBack } from '@tabler/icons-react';
 import './form-stock.css';
 import { Stock } from '@/models/Stock';
-import { useEffect } from 'react';
 
 interface FormStockProps {
   deactive(): void;
   stock: Partial<Stock>;
   changeStock(stock: Partial<Stock>): void;
   save(): void;
-  // updateStock(stock: Stock): void;
 }
 
 function FormStock({
@@ -17,10 +15,6 @@ function FormStock({
   changeStock,
   save
 }: FormStockProps) {
-
-  useEffect(() => {
-    console.log(stock);
-  }, []);
 
   return (
     <section className={`
@@ -66,7 +60,7 @@ function FormStock({
                 value={stock.minimum_stock ?? ''}
                 type='number'
                 id='quantity'
-                placeholder='Quantidade'
+                placeholder='Estoque minimo'
               />
             </div>
           </div>
