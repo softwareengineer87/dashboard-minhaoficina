@@ -4,26 +4,32 @@ import './notification.css';
 import { useEffect, useState } from 'react';
 import { PopupNotifiation } from '../PopupNotification';
 import { useNotification } from '@/data/hooks/useNotificaction';
+import { useStock } from '@/data/hooks/useStock';
 
 function NotificationCenter() {
 
-  const [notificationCount, setNotificationCount] = useState<number>(1);
-  const [notifications, setNotifications] = useState<string[]>(['ererdfdfd', 'refdgfhgjghhg', 'dfdgg', 'dfdfdf']);
+  // const [notifications, setNotifications] = useState<string[]>([]);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
 
   const {
-    addNotification,
-    getNotifications
+    notifications,
+    getNotifications,
+    notificationCount
   } = useNotification();
+
+
+  async function handleNotification() {
+    setOpenPopup((state) => !state);
+    await getNotifications();
+  }
 
   useEffect(() => {
     getNotifications();
-    console.log(notifications);
   }, []);
 
   return (
     <section className='notification-center-container'>
-      <div onClick={() => setOpenPopup((state) => !state)} className='notification-center'>
+      <div onClick={handleNotification} className='notification-center'>
         <div className='count'>
           <p>{notificationCount}</p>
         </div>
@@ -33,7 +39,7 @@ function NotificationCenter() {
             <PopupNotifiation>
               <div className='notifications'>
                 {notifications && notifications.map((notificaction) => (
-                  <p>{notificaction}</p>
+                  <p key={notificaction.notification_id}>{notificaction.title}</p>
                 ))}
               </div>
             </PopupNotifiation>

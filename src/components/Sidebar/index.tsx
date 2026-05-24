@@ -38,7 +38,7 @@ function Sidebar() {
   }, []);
 
   return (
-    <section className={`sidebar-container ${open ? 'open-sidebar' : ''}`}>
+    <section className={`sidebar-container ${open ? 'open-sidebar' : 'close-sidebar'}`}>
       {open ? (
         <IconChevronCompactLeft className='icon-open' onClick={openSidebar} />
       ) : (

@@ -11,7 +11,6 @@ import { useStock } from "@/data/hooks/useStock";
 function Statistics() {
 
   const {
-    allStocks,
     totalValueProducts,
     productQuantity
   } = useStock();

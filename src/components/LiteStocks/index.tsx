@@ -1,29 +1,21 @@
 
+
 import { Message } from '../Message';
-import { IconEdit, IconSearch, IconTrash } from '@tabler/icons-react';
+import { IconSearch } from '@tabler/icons-react';
 import { Pagination } from '../Pagination';
-import './notes.css';
+import './lite-stock.css';
 import { Stock } from '@/models/Stock';
 import { useStock } from '@/data/hooks/useStock';
 import { formatPrice } from '@/utils/FormatPrice';
 import { useSearch } from '@/data/hooks/useSearch';
-import { PaginationModel } from '@/models/PaginationModel';
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Auth } from '@/data/contexts/Auth';
 
-interface StocksPros {
+interface LiteStocksPros {
   stocks: Stock[];
-  pagination: PaginationModel;
-  selectedStock(stock: Stock): void;
-  deleteStock(productId: string): void;
 }
 
-function Stocks({
-  selectedStock,
-  deleteStock
-}: StocksPros) {
-
-  // const [inputTitle, setInputTitle] = useState<string>('');
+function LiteStocks() {
 
   const { business } = useContext(Auth);
 
@@ -36,15 +28,19 @@ function Stocks({
     activeMessage
   } = useStock();
 
+  function loadProductsMinimumStock() {
+    return stocks.filter((stock) => stock.quantity <= stock.minimum_stock);
+  }
+
   const {
+    search,
     changePage,
     showAll,
-    search,
     inputTitle,
-    setInputTitle,
     page,
     inputPage,
     setInputPage,
+    setInputTitle
   } = useSearch({ loadCb: loadStocks, paramName: 'title' });
 
   useEffect(() => {
@@ -61,7 +57,7 @@ function Stocks({
       <div className='notes'>
         <div className='table-container'>
           <div className='header-table'>
-            <h2>Produtos no estoque</h2>
+            <h2>Produtos com estoque baixo</h2>
             <div className='box-inputs'>
               <form onSubmit={search}>
                 <div className='input-box'>
@@ -88,7 +84,7 @@ function Stocks({
               </tr>
             </thead>
             <tbody>
-              {stocks.map((stock: Stock) => (
+              {loadProductsMinimumStock().map((stock: Stock) => (
                 <tr key={stock.product_id}>
                   <td>
                     <span className='cell-header'>Titulo</span>
@@ -108,12 +104,6 @@ function Stocks({
                   </td>
                   <td className='actions'>
                     <span className='cell-header'>Ações</span>
-                    <button onClick={() => selectedStock(stock)}>
-                      <IconEdit className='edit' stroke={1} />
-                    </button>
-                    <button onClick={() => deleteStock(stock.product_id)}>
-                      <IconTrash className='del' stroke={1} />
-                    </button>
                     {stock.quantity <= stock.minimum_stock && (<p>estoque baixo</p>)}
                   </td>
                 </tr>
@@ -130,5 +120,5 @@ function Stocks({
   );
 }
 
-export { Stocks }
+export { LiteStocks }
 

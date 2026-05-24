@@ -1,15 +1,27 @@
 'use client';
 
 import './page.css';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Auth } from '@/data/contexts/Auth';
 import { Message } from '@/components/Message';
 import { Search } from '@/components/Search';
 import { Notes } from '@/components/Notes';
 import { Statistics } from '@/components/Statistics';
-import { NotificationCenter } from '@/components/NotificationCenter';
+import { useNotification } from '@/data/hooks/useNotificaction';
+import { useStock } from '@/data/hooks/useStock';
+import { LiteStocks } from '@/components/LiteStocks';
 
 export default function Home() {
+
+  const [notification, setNotification] = useState<string>('');
+
+
+  const {
+    sendNotification,
+    getNotifications,
+    addNotification,
+    notifications
+  } = useNotification();
 
   const {
     business,
@@ -23,6 +35,10 @@ export default function Home() {
     getLogo();
   }, [business]);
 
+  useEffect(() => {
+    getNotifications();
+  }, []);
+
   return (
     <main className='container-main'>
       <Message
@@ -32,6 +48,12 @@ export default function Home() {
       />
       <Search />
       <Statistics />
+      <section className='middle'>
+        <div className='graphic'>graficos</div>
+        <div className='proucts'>
+          <LiteStocks />
+        </div>
+      </section>
       <Notes />
     </main>
   );

@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   background-color: var(--color-white);
   height: 100vh;
   position: sticky;
@@ -57,6 +56,7 @@
 .sidebar nav.menu {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 2rem;
 }
 

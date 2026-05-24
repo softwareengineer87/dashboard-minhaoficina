@@ -141,6 +141,18 @@ function useStock() {
     setPoductQuantity(quantity);
   }
 
+  async function searchStocks(businessId: string, title: string) {
+    try {
+      const response = await fetch(`${baseURL}/stock/search/${businessId}?title=${title}`);
+      handleActiveMessage();
+      const data = await response.json();
+      setStocks(data);
+      return data;
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+
   useEffect(() => {
     loadStocks(business.payload?.businessId, 1);
     getTotalValueProducts();

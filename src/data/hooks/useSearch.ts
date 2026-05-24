@@ -43,7 +43,7 @@ function useSearch({ loadCb, paramName }: useSearchProps) {
       push(`${pathname}`);
     }
     setInputTitle(title);
-    await loadCb(business.payload?.businessId, inputPage, inputTitle!);
+    // await loadCb(business.payload?.businessId, inputPage, inputTitle!);
     setInputTitle('');
   }
 
