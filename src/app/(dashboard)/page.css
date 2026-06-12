@@ -29,6 +29,19 @@
   justify-content: space-between;
 }
 
+.container-main .checklist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checklist .btn-checklist {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  padding: .5rem 2rem;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 48rem) {
   .container-main .statistics {
     grid-template-columns: repeat(2, 1fr);

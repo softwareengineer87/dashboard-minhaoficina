@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCalendar, IconChevronCompactLeft, IconChevronCompactRight, IconChevronDown, IconChevronUp, IconHome, IconList, IconLogout2, IconNote, IconNotes, IconTool, IconUser } from '@tabler/icons-react';
+import { IconCalendar, IconChevronCompactLeft, IconChevronCompactRight, IconChevronDown, IconChevronUp, IconHome, IconList, IconListCheck, IconLogout2, IconNote, IconNotes, IconTool, IconUser } from '@tabler/icons-react';
 import './sidebar.css';
 import { useContext, useEffect, useState } from 'react';
 import { Message } from '../Message';
@@ -58,6 +58,11 @@ function Sidebar() {
               label='Home'
               icon={<IconHome />}
               url='/'
+            />
+            <MenuItem
+              label='Checklist de entrada'
+              icon={<IconListCheck />}
+              url='/checklist'
             />
             <MenuItem
               label='Criar Nota'
